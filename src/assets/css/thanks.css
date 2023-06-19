@@ -1,0 +1,132 @@
+.thanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 75px 0;
+}
+
+.thanks__title {
+  font-family: "Museo Sans Cyrl";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 58.0425px;
+  line-height: 70px;
+  text-align: center;
+}
+
+.thanks__text {
+  margin-top: 38px;
+  text-align: center;
+}
+
+.thanks__text-p {
+  font-size: 26px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.offer {
+  margin-top: 90px;
+  width: 100%;
+}
+
+.offer__title {
+  font-family: "MuseoSansCyrl-900";
+  font-size: 34.4854px;
+  line-height: 40px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.offer__timer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 19px;
+  margin-top: 28px;
+}
+
+.offer__timer-text {
+  max-width: 207px;
+  font-size: 20px;
+  line-height: 23px;
+}
+
+.offer__timer-time {
+  font-family: "Museo Sans Cyrl";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34.4854px;
+  line-height: 41px;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.offer__timer-time::after {
+  content: "мин";
+  position: absolute;
+  bottom: 0;
+  left: 9px;
+}
+
+.offer__timer-time::before {
+  content: "сек";
+  position: absolute;
+  bottom: 0;
+  right: 9px;
+}
+
+.offer__timer-time::before,
+.offer__timer-time::after {
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+}
+
+.offer__cards {
+  margin-top: 39px;
+}
+
+@media screen and (max-width: 600px) {
+  .thanks__title {
+    font-size: 40.0425px;
+    line-height: 50px;
+  }
+
+  .thanks__text {
+    font-size: 20px;
+    line-height: 25px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .thanks__title {
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  .thanks__text {
+    margin-top: 17px;
+  }
+  .thanks__text-p {
+    margin-top: 15px;
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  .offer__title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+  .offer__timer-text {
+    font-size: 14px;
+    line-height: 16px;
+    max-width: 144px;
+  }
+
+  .offer__timer {
+    gap: 12px;
+  }
+}

@@ -1,0 +1,97 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+}
+
+.error__num {
+  position: absolute;
+  z-index: -1;
+  top: 112px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "MuseoSansCyrl-900";
+  font-size: 431.173px;
+  line-height: 505px;
+  text-align: center;
+  max-width: 100%;
+  color: rgba(0, 0, 0, 0.05);
+}
+
+.error__title {
+  font-family: "Museo Sans Cyrl";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 58.0425px;
+  line-height: 70px;
+  text-align: center;
+  color: #000000;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.error__btn {
+  margin-top: 77px;
+}
+
+.error__bottom {
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.error__text {
+  font-size: 18px;
+  line-height: 21px;
+}
+
+@media screen and (max-width: 850px) {
+  .error__num {
+    font-size: 231.173px;
+    line-height: 305px;
+  }
+  .error__title {
+    font-size: 38.0425px;
+    line-height: 50px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .error__num {
+    font-size: 160.312px;
+    line-height: 188px;
+  }
+  .error__title {
+    font-size: 26.8459px;
+    line-height: 32px;
+  }
+  .error__btn {
+    margin-top: 42px;
+  }
+
+  .error__bottom {
+    margin-top: 39px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .error__num {
+    font-size: 100.312px;
+    line-height: 188px;
+  }
+  .error__title {
+    font-size: 20.8459px;
+    line-height: 28px;
+  }
+  .error__text {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
