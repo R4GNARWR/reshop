@@ -55,6 +55,10 @@ const routes = [
   {
     path: '/product/:pId',
     component:()=>import('@/views/Product.vue')
+  },
+  {
+    path: '/cabinet',
+    component:()=>import('@/views/Cabinet.vue')
   }
 ]
 

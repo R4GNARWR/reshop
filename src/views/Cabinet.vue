@@ -13,6 +13,7 @@
                         <a href="#purchases" class="cabinet__tab" :class="{'active': currentTab === 'purchases'}" @click="currentTab = 'purchases'">Покупки</a>
                         <a href="#favorites" class="cabinet__tab" :class="{'active': currentTab === 'favorites'}" @click="currentTab = 'favorites'">Избранное</a>
                         <a href="#messages" class="cabinet__tab" :class="{'active': currentTab === 'messages'}" @click="currentTab = 'messages'">Сообщения</a>
+                          <a href="#messages" class="cabinet__tab" @click="logout()">Выйти</a>
                         </div>
                     </aside>
                     <div style="width: 100%">
@@ -27,7 +28,7 @@
                 </div>
             </div>
         </main>
-            
+
         <!-- Мобильный Личный Кабинет -->
         <div class="mob-cabinet">
             <h1 class="mob-cabinet__title">Личный кабинет</h1>
@@ -61,6 +62,8 @@ import Purchases from '../components/cabinet/Purchases.vue'
 import Sales from '../components/cabinet/Sales.vue'
 import Subcriptions from '../components/cabinet/Subcriptions.vue'
 import UserData from '../components/cabinet/UserData.vue'
+import API from "@/api";
+
 export default {
   components: { UserData, Payment, Subcriptions, Sales, Purchases, Messages, Favorites },
     name: 'Cabinet',
@@ -68,7 +71,13 @@ export default {
         return {
             currentTab: 'userData',
         }
+    },
+  methods:{
+    logout(){
+      API.logout()
+      this.$router.push('/')
     }
+  }
 }
 </script>
 

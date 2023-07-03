@@ -13,10 +13,6 @@ import {useSessionStore} from "@/store/session";
 
 export default {
   components: {Msg, TheFooter, TheHeader},
-  computed:{
-    msg(){return useSessionStore().msg}
-  }
-
-
+  computed:{msg(){return useSessionStore().msg},}
 }
 </script>

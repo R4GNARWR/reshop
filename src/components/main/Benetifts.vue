@@ -71,7 +71,12 @@
 import {useSessionStore} from "@/store/session";
 export default {
   computed:{
-    mainPage(){return useSessionStore().mainPage},
+    mainPage(){
+      if (useSessionStore().settings.find(el=>el.setting_type==="mainPage"))
+        return JSON.parse(useSessionStore().settings.find(el=>el.setting_type==="mainPage").setting_json)
+      else return null
+    },
+
   }
 }
 </script>

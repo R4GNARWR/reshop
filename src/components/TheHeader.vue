@@ -24,7 +24,7 @@
             <router-link to="/howToDonate" class="header__top-link">Как сдать одежду</router-link>
             <router-link to="/delivery" class="header__top-link">Доставка и оплата</router-link>
           </nav>
-          <a href="tel:89876542310" class="header__top-phone">8 (987) 654-23-10</a>
+          <a :href="'tel:'+headerStore.MainPhone" class="header__top-phone">{{ headerStore.MainPhone }}</a>
         </div>
       </div>
       <div class="header__inner">
@@ -34,10 +34,10 @@
           </div>
           <div class="header__inner-left">
             <router-link to="/" class="header__logo">
-              <img :src="sessionStore.mainSettings.logo" alt="" />
+              <img :src="headerStore.Logo" alt="" />
             </router-link>
             <div class="header__slogan">
-              {{sessionStore.mainSettings.shopName}}
+              {{headerStore.shopName}}
             </div>
           </div>
           <div class="header__inner-right">
@@ -55,7 +55,10 @@
               </button>
               <!-- Результат поиска(скрыт) -->
               <div class="search-results" v-if="variants && variants.length>0" v-click-outside="blurIt" ref="searchResultsScroller">
-                <router-link v-for="product of variants" :key="product.id" :to="'/product/'+product.id" class="search-result">
+                <router-link v-for="product of variants"
+                             :key="product.id"
+                             @click="variants=[]"
+                             :to="'/product/'+product.id" class="search-result">
                   <div class="search-result__top">
                     <img
                       src="@/assets/images/category-sm.svg"
@@ -79,7 +82,7 @@
             <div class="header__actions">
               <div class="header__actions-item">
                 <div class="header__actions-icon">
-                  <v-icon v-if="sessionStore.favorites.length"
+                  <v-icon v-if="headerStore.favorites.length"
                           color="#EB681E" icon="mdi-heart"
                           @click="$router.push('/favorites')"
                   >
@@ -94,11 +97,11 @@
                 </div>
                 <p class="header__actions-text">Корзина</p>
               </router-link>
-              <a class="header__actions-item" @click="showAuth = true">
+              <a class="header__actions-item" @click="sessionStore.user_info.id?$router.push('/Cabinet'):showAuth = true">
                 <div class="header__actions-icon">
                   <v-icon color="#EB681E" icon="mdi-account"></v-icon>
                 </div>
-                <p class="header__actions-text">Войти</p>
+                <p class="header__actions-text">{{sessionStore.user_info.id?"В кабинет":"Войти"}}</p>
               </a>
             </div>
           </div>
@@ -135,9 +138,9 @@
                   >Популярные бренды</a
                 >
               </li>
-              <li v-for="brand of shopStore.brands" :key="brand.attributeValueId">
-                <a class="window__catalog-link">{{ brand.value }}</a>
-              </li>
+<!--              <li v-for="brand of shopStore.brands" :key="brand.attributeValueId">-->
+<!--                <a class="window__catalog-link">{{ brand.value }}</a>-->
+<!--              </li>-->
             </ul>
             <ul class="window__catalog-list" v-for="pcat of parentsCatIds" :key="pcat.id">
               <li @click="showCatalog=false">
@@ -163,8 +166,8 @@
                   >Популярные бренды</a
                 >
               </li>
-              <li v-for="brand of shopStore.brands" :key="brand.attributeValueId">
-                <a class="window__catalog-link">{{ brand.value }}</a>
+              <li v-for="brand of sessionStore.popBrands" :key="brand">
+                <a class="window__catalog-link" @click="$router.push('/search/'+brand);showCatalog=false">{{ brand }}</a>
               </li>
             </ul>
             <ul class="window__catalog-list" v-for="pcat of parentsCatIds" :key="pcat.id">
@@ -665,8 +668,20 @@ export default {
     }
   },
   computed:{
-    shopStore(){return useShopStore()},
     sessionStore(){return useSessionStore()},
+    headerStore(){
+      let sessionStore= useSessionStore()
+      return{
+        MainPhone: sessionStore.settings.find(el=>el.setting_type==="MainPhone")?
+          sessionStore.settings.find(el=>el.setting_type==="MainPhone").setting_json.replace(/["']/g, ""):"",
+        Logo: sessionStore.settings.find(el=>el.setting_type==="logo")?
+          sessionStore.settings.find(el=>el.setting_type==="logo").setting_json.replace(/["']/g, ""):"",
+        shopName: sessionStore.settings.find(el=>el.setting_type==="shopName")?
+          sessionStore.settings.find(el=>el.setting_type==="shopName").setting_json.replace(/["']/g, ""):"",
+        favorites:sessionStore.favorites
+      }
+    },
+
     parentsCatIds(){
       let result = []
       for (let cat of useShopStore().categoriesTree){
@@ -722,9 +737,10 @@ export default {
           if (this.activeSearchVariantIdx !== null) {
            this.searchString = this.variants[this.activeSearchVariantIdx].product;
           }
+          this.variants=[]
           break;
         case e && e.keyCode === 27: // Esc
-          this.$refs.searchStringInput.blurIt();
+          this.variants=[]
           break;
         default:
           this.keyPressedTime = t;
@@ -737,7 +753,6 @@ export default {
       this.activeSearchVariantIdx = null;
       this.variants = [];
     },
-    search(){},
     scrollToVariant(){
       try {
         this.$refs.searchResultsScroller.children[this.activeSearchVariantIdx].scrollIntoView({
@@ -776,12 +791,12 @@ export default {
       }
     }
   },
+
   created() {
     API.init();
     API.tryAuth();
     API.getAllCategories()
     API.getSettings()
-    API.getAllAttributes()
   }
 }
 </script>

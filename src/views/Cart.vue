@@ -1,9 +1,9 @@
 <template>
     <main>
-      <section class="cart" v-if="totalQuantity > 0">
+      <section class="cart" v-if="products.length > 0">
         <div class="container">
           <div class="cart__title">
-            Корзина <span class="cart__amount"> {{ totalQuantity}} </span>
+            Корзина <span class="cart__amount"> {{ products.length}} </span>
           </div>
           <div class="cart__wrapper">
             <div class="cart__list">
@@ -31,25 +31,25 @@
                 </div>
                 <div class="cart__item-info">
                   <div class="cart__item-prices--mob">
-                    <div class="cart__item-newprice--mob">{{ product.product.oldPrice }} р.</div>
-                    <div class="cart__item-oldprice--mob">{{ product.product.newPrice }} р.</div>
+                    <div class="cart__item-newprice--mob">{{ product.oldPrice }} р.</div>
+                    <div class="cart__item-oldprice--mob">{{ product.price }} р.</div>
                   </div>
                   <a href="#" class="cart__item-name"
-                    >{{ product.product.name }}</a
+                    >{{ product.name }}</a
                   >
                   <div class="cart__item-wrapper">
                     <div class="cart__item-desc">
-                      <p v-for="(arr, title) of product.attrString">{{ title }}: {{ arr.toString() }}</p>
+                      <p v-for="(arr, title) of attrString(product)">{{ title }}: {{ arr.toString() }}</p>
                     </div>
                     <div class="cart__item-actions">
-                      <a class="cart__item-icon" @click.prevent="delFrom(product.product.id)">
+                      <a class="cart__item-icon" @click.prevent="delFrom(product.id)">
                         <img src="@/assets/images/trash.svg" alt="" />
                       </a>
-                      <TheHeart :pId="product.product.id"/>
+                      <TheHeart :pId="product.id"/>
                     </div>
                     <div class="cart__item-prices">
-                      <div class="cart__item-oldprice" v-if="product.product.oldPrice">{{ product.product.oldPrice }} р.</div>
-                      <div class="cart__item-newprice">{{ product.product.price }} р.</div>
+                      <div class="cart__item-oldprice" v-if="product.oldPrice">{{ product.oldPrice }} р.</div>
+                      <div class="cart__item-newprice">{{ product.price }} р.</div>
                     </div>
                   </div>
 <!--                  <div class="cart__item-viewers">-->
@@ -76,7 +76,7 @@
                 <h2 class="cart__form-title">Способ доставки</h2>
 <!--                <a href="#" class="cart__form-link">Выберите адрес доставки</a>-->
                 <fieldset class="cart__form-fieldset--pay">
-                  <div class="group-radio" v-for="way of sessionStore.mainSettings.deliveries">
+                  <div class="group-radio" v-for="way of JSON.parse(sessionStore.settings.find(el=>el.setting_type ==='deliveries').setting_json)">
                     <input
                       type="radio"
                       name="group1"
@@ -89,7 +89,7 @@
 
                 <h2 class="cart__form-title">Способ оплаты</h2>
                 <fieldset class="cart__form-fieldset--pay">
-                  <div class="group-radio" v-for="way of sessionStore.mainSettings.payments">
+                  <div class="group-radio" v-for="way of JSON.parse(sessionStore.settings.find(el=>el.setting_type ==='payments').setting_json)">
                     <input
                       type="radio"
                       name="group12"
@@ -163,7 +163,7 @@
               <h2 class="check__title">Итого</h2>
               <ul class="check__list">
                 <li class="check__item">
-                  <div class="check__item-left">Товары, {{ totalQuantity}}  шт.</div>
+                  <div class="check__item-left">Товары, {{ products.length}}  шт.</div>
                   <div class="check__item-right">{{ totalPrice }} р.</div>
                 </li>
                 <li class="check__item">
@@ -293,12 +293,19 @@ export default {
   name: 'Cart',
   components: {TheHeart},
   data(){return{
-    products:[], deliverType:null, paymentsType:null, minutes: 5,
+    deliverType:null, paymentsType:null, minutes: 5,
     seconds: 30
   }},
   methods:{
+    attrString(product){
+      let result={}
+      for (let attr of product.attributes)
+        if(result[attr.frontName])result[attr.frontName].push(attr.attributeValueText)
+        else result[attr.frontName]=[attr.attributeValueText]
+      return result
+    },
     delFrom(id){
-      useSessionStore().delFromCart(id)
+      this.sessionStore.delFromCart(id)
       this.products.splice(this.products.findIndex(el=>el===id),1)
     },
     startTimer() {
@@ -320,52 +327,23 @@ export default {
   },
   computed: {
     sessionStore(){return useSessionStore()},
-    totalQuantity(){return useSessionStore().cart.length},
-    async p(){
-      for (let id of useSessionStore().cart)
-        console.log(id)
-        await API.getProductById(id).then(value => {
-          if (value.data.success){
-            this.products.push(value.data.response)
-          }
-        })
-      return true
-    },
+    products(){return useSessionStore().cart},
     totalPrice(){
       let sum=0
-      for (let p of this.products){
-        sum+=p.product.price
+      for (let p of useSessionStore().cart){
+        sum+=p.price
       }
       return sum
     },
     totalDiscount(){
       let sum=0
-      for (let p of this.products){
-        if (p.product.oldPrice)
-          sum+=p.product.oldPrice-p.product.price
+      for (let p of useSessionStore().cart){
+        if (p.oldPrice)
+          sum+=p.oldPrice-p.price
       }
       return sum
     }
   },
-  created() {
-    setTimeout(()=>{
-      for (let id of useSessionStore().cart){
-        API.getProductById(id).then(value => {
-          if (value.data.success){
-            let result = value.data.response
-            //attr to string
-            result.attrString={}
-            for (let attr of result.attributes){
-              if (!result.attrString[attr.frontName]){
-                result.attrString[attr.frontName]=[attr.attributeValueText]
-              } else result.attrString[attr.frontName].push(attr.attributeValueText)
-            }
-            this.products.push(result)
-          }
-        })
-      }
-    },1000)
-  }
 }
 </script>
 <style src="@/assets/css/cart.css"></style>

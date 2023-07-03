@@ -14,26 +14,21 @@
               указанному вами номеру телефона.
             </p>
             <div class="info__subtitle">Варианты доставки:</div>
-            <div class="info__item">
-              <div class="info__item-top">Самовывоз</div>
+            <div class="info__item" v-for="method of deliveries" :key="method.title">
+              <div class="info__item-top">{{ method.title }}</div>
               <div class="info__item-bottom">
-                ТЦ "Галерея АРТ" (Чернышевского, 75), второй этаж по эскалатору,
-                вывеска RESHOP. Каждый день с 12.00 до 21.00
+                {{ method.description}}
               </div>
-            </div>
-            <div class="info__item">
-              <div class="info__item-top">Курьером или в пункт выдачи</div>
-              <div class="info__item-bottom">
-                Отправляем в другие города Почтой России и СДЭКом
-              </div>
+              <p style="font-size: 13px;">Доставим {{method.period}}</p>
+              <i style="font-size: 13px;">Стоимость: {{method.aboutPrice}}</i>
             </div>
             <div class="info__subtitle">Варианты оплаты:</div>
-            <p class="info__text--sm">
-              Оплата банковской картой, через Интернет, возможна через системы
-              электронных платежей. Номер карты (PAN) должен иметь не менее 15 и
-              не более 19 символов. Мы принимаем платежи с сайта по следующим
-              банковским картам
-            </p>
+            <div class="info__item" v-for="method of payments" :key="method.title">
+              <div class="info__item-top">{{ method.header }}</div>
+              <div class="info__item-bottom">
+                {{ method.description}}
+              </div>
+            </div>
             <img src="@/assets/images/visa.png" alt="" />
           </div>
         </div>
@@ -42,8 +37,17 @@
 </template>
 
 <script>
-export default {
+import {useSessionStore} from "@/store/session";
 
+export default {
+  computed: {
+    deliveries() {
+      return JSON.parse(useSessionStore().settings.find(el => el.setting_type === "deliveries").setting_json)
+    },
+    payments() {
+      return JSON.parse(useSessionStore().settings.find(el => el.setting_type === "payments").setting_json)
+    },
+  }
 }
 </script>
 

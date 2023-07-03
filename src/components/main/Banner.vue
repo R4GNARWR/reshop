@@ -1,6 +1,6 @@
 <template>
   <section class="banner">
-    <div class="container">
+    <div class="container" v-if="banners">
         <Swiper class="banner__slider"
                 :navigation="true"
                 :modules="modules"
@@ -10,7 +10,7 @@
                 }"
         >
           <SwiperSlide class="banner__slides"
-          v-for="banner of banners" :key="banner.id"
+          v-for="banner of banners" :key="banner.title"
           >
               <div class="banner__slide">
                 <img :src="banner.img" alt="" style="opacity: 0.7;"/>
@@ -50,7 +50,11 @@ export default {
     SwiperSlide
   },
   computed:{
-    banners(){return useSessionStore().mainPage.sliders}
+    banners(){
+      if (useSessionStore().settings.find(el=>el.setting_type==="sliders"))
+        return JSON.parse(useSessionStore().settings.find(el=>el.setting_type==="sliders").setting_json)
+      else return null
+    }
   },
   setup() {
     return {

@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import API from '../api.js'
+import {useShopStore} from "@/store/shop";
 
 export const useSessionStore = defineStore('session', {
   state: () => ({
@@ -11,6 +12,24 @@ export const useSessionStore = defineStore('session', {
     favorites:[],
     cart:[],
     msg:"",
+    popBrands:[
+      "Asos",
+      "Befree",
+      "Bershka",
+      "H&M",
+      "Lime",
+      "Love Republic",
+      "Mango",
+      'Massimo Dutti',
+      'Mohito',
+      "Monki",
+      'Pull&Bear',
+      'Reserved',
+      "Stradivarius",
+      "Tommy Hilfiger",
+      "Zara",
+      'Zarina'
+    ]
 
   }),
   actions: {
@@ -27,8 +46,6 @@ export const useSessionStore = defineStore('session', {
     },
     setSetting(value){
       this.settings=value
-      this.mainPage = JSON.parse(value[value.findIndex(el=>el.setting_type === 'mainPage')].setting_json)
-      this.mainSettings = JSON.parse(value[value.findIndex(el=>el.setting_type === 'settings')].setting_json)
     },
 
     addFavorites(id){
@@ -49,20 +66,23 @@ export const useSessionStore = defineStore('session', {
     },
 
     setCart(data){
-      this.cart=[]
-      for (let p of data)
-        this.cart.push(p.productId)
+      this.cart=data
+      // for (let p of data)
+      //   this.cart.push(p.productId)
     },
     toCart(id){
-      if (!this.cart.includes(id)) {
-        this.cart.push(id)
-        API.put_to_cart(id)
-        this.showMsg("Товар добавлен в корзину!")
-      }
+      if (!this.cart.find(el=>el.id === id)) {
+        API.put_to_cart(id).then(value => {
+          if (value.data.success) {
+            this.cart.push(useShopStore().products[id])
+            this.showMsg("Товар добавлен в корзину!")
+          }
+        })
 
+      }
     },
     delFromCart(id){
-      this.cart.splice(this.cart.findIndex(el=>el===id),1)
+      this.cart.splice(this.cart.findIndex(el=>el.id === id),1)
       API.delRequest('cart/products/' + id)
     },
 

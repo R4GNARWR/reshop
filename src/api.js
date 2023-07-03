@@ -4,6 +4,7 @@ import router from "@/router";
 import {useSessionStore} from "@/store/session";
 import {useShopStore} from "@/store/shop";
 
+
 axios.defaults.headers.common['Content-Type'] = 'application/json; charset=UTF-8'
 axios.defaults.headers.common['xMarketGroup']='4'
 axios.defaults.headers.common['xProjectId']='2'
@@ -112,12 +113,12 @@ export default  {
           let attr={}
           if (store.attributes.length>0)
             attr= store.attributes.find(el=>el.title==='brand')
-          if (attr.attributeId)
-            this.getAttrValues(attr.attributeId).then(value => {
-              if (value.data.success) {
-                store.setBrands(value.data.attributeValues)
-              }
-            })
+          // if (attr.attributeId)
+          //   this.getAttrValues(attr.attributeId).then(value => {
+          //     if (value.data.success) {
+          //       store.setBrands(value.data.attributeValues)
+          //     }
+          //   })
         }
     })},
     getAttrCats(id){return this.axios.get("admin/attributes/"+ id + "/categories")},
@@ -146,7 +147,7 @@ export default  {
 
     //PRODUCT
     saveProductPhoto(img) {return this.axios.post("admin/photos",img,{params:{type:"product"}})},
-    getProductById(id){return this.axios.get('products/'+id)},
+    getProductById(id){return this.axios.get('products/'+id) },
     createNewProduct(product){return this.axios.post("admin/create-product", product)},
     fastProductUpdate(product, status){this.axios.post("admin/fast-update-product",{id:product.id, price:product.price, priority:product.priority, active:status?status:product.active})},
 
@@ -245,8 +246,8 @@ export default  {
 
 
     searchProductsVariants(query){return this.axios.get('search-products', {params: {query: query }})},
-    searchProducts(query,attr, cat, page){return this.axios.get('products',{params:{query:query, attr:attr, categoryId:cat, per_page: 50, page:page}}).then(value => {return value;})},
-
+    searchProducts(query,attr, cat){return this.axios.get('main-search',{params:{query:query, attr:attr, category_id:cat}}).then(value => {return value;})},
+  // searchProducts(query,attr, cat, page){return this.axios.get('products',{params:{query:query, attr:attr, categoryId:cat, per_page: 99, page:page}}).then(value => {return value;})},
 
     get_payments_history(){return this.axios.get('account/billing/history')},
     get_ordered_products(){return this.axios.get('account/ordered-products')},

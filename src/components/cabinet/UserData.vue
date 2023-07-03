@@ -10,61 +10,53 @@
                     </div>
                     </label>
                 </div>
-                <h2 class="cabinet__body-title">Данные пользователя</h2>
-                <div class="cabinet__form-field">
-                    <label for="secondName">Фамилия</label>
-                    <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="second name"
-                    id="secondName"
-                    />
-                </div>
-                <div class="cabinet__form-field">
-                    <label for="name">Имя</label>
-                    <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="name"
-                    id="name"
-                    />
-                </div>
-                <div class="cabinet__form-field">
-                    <label for="fathersName">Отчество</label>
-                    <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="Fathers name"
-                    id="fathersName"
-                    />
-                </div>
-                <div class="cabinet__form-field">
-                    <label for="email">E-mail</label>
-                    <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="email"
-                    id="email"
-                    />
-                </div>
-                <div class="cabinet__form-field">
-                    <label for="phone">Телефон</label>
-                    <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="phone"
-                    id="phone"
-                    />
-                </div>
-                <div class="cabinet__form-field">
-                    <label for="address">Адрес</label>
-                    <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="address"
-                    id="address"
-                    />
-                </div>
+              <h2 class="cabinet__body-title">Данные пользователя</h2>
+              <div class="cabinet__form-field">
+                <label for="secondName">ФИО</label>
+                <input
+                  class="cabinet__form-input"
+                  type="text"
+                  name="second name"
+                  v-model="user.name"
+                />
+              </div>
+              <div class="cabinet__form-field">
+                <label for="email">E-mail</label>
+                <input
+                  class="cabinet__form-input"
+                  type="text"
+                  name="email"
+                  v-model="user.email"
+                />
+              </div>
+              <div class="cabinet__form-field">
+                <label for="phone">Телефон</label>
+                <input
+                  class="cabinet__form-input"
+                  type="text"
+                  name="phone"
+                  v-model="user.phone"
+                />
+              </div>
+              <div class="cabinet__form-field">
+                <label for="address">Город</label>
+                <input
+                  class="cabinet__form-input"
+                  type="text"
+                  name="city"
+                  id="city"
+                  v-model="user.city"
+                />
+              </div>
+              <div class="cabinet__form-field">
+                <label for="address">Адрес</label>
+                <input
+                  class="cabinet__form-input"
+                  type="text"
+                  name="address"
+                  v-model="user.address"
+                />
+              </div>
             </form>
         </div>
         <!-- Мобильный Личный Кабинет -> Данные пользователя-->
@@ -143,11 +135,12 @@
 </template>
 
 <script>
+import {useSessionStore} from "@/store/session";
+
 export default {
-    name: 'UserData',
+  name: 'UserData',
+  computed:{
+    user(){return useSessionStore().user_info}
+  }
 }
 </script>
-
-<style>
-
-</style>

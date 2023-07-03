@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
-import API from '../api.js'
+import API from '../api.js';
+import { isReactive, toRaw } from 'vue'
 
 export const useShopStore = defineStore('shop', {
   state: () => ({
@@ -9,8 +10,12 @@ export const useShopStore = defineStore('shop', {
     colors:[], brands:[],
     users:[],
     categoriesTree:[],
+    products:{}
   }),
   actions: {
+    addProduct(product){
+      this.products[parseInt(product.id)]=product
+    },
     setCategoriesTree(categoriesArray) {this.categoriesTree = categoriesArray;},
     setCatTreeStatus(text){this.catTreeStatus = text},
     delCategory(categoryId){this.categoriesTree.splice(this.categoriesTree.findIndex(el=>el.id === categoryId),1)},
@@ -34,7 +39,19 @@ export const useShopStore = defineStore('shop', {
       for (let user of users) user.title = '+7'+user.phone+' '+user.name
       this.users = users;
     },
+    getProduct(id){
+      if (this.products[id]) return this.products[id]
+      else {
+        API.getProductById(id).then(value => {
+          if (value.data.success){
+            this.addProduct(toRaw(value.data.product))
+          }
+        })
+        return this.products[id]
+      }
+    }
   },
+
 })
 
 

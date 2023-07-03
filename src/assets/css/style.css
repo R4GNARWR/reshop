@@ -800,6 +800,7 @@ p {
   color: #000000;
   position: relative;
   cursor: pointer;
+  max-width: 200px;
 }
 
 .header__catalog-link:after {
@@ -940,6 +941,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 200px;
 }
 .window__catalog-link {
   font-family: "MuseoSansCyrl-300";

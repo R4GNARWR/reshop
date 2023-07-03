@@ -25,8 +25,6 @@ import { registerPlugins } from '@/plugins'
 
 import vClickOutside from 'v-click-outside'
 
-
-
 const app = createApp(App)
 
 registerPlugins(app)

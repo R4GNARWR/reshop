@@ -26,18 +26,18 @@
             <div class="filter__form-field">
               <div class="filter__form-top">
                 <div class="filter__form-title"><p>Цена, &#8381;</p></div><a class="filter__form-collapse">
-                <svg
-                    width="16"
-                    height="15"
-                    viewBox="0 0 16 15"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                      d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"
-                      fill="#959595"
-                  />
-                </svg>
+<!--                <svg-->
+<!--                    width="16"-->
+<!--                    height="15"-->
+<!--                    viewBox="0 0 16 15"-->
+<!--                    fill="none"-->
+<!--                    xmlns="http://www.w3.org/2000/svg"-->
+<!--                >-->
+<!--                  <path-->
+<!--                      d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"-->
+<!--                      fill="#959595"-->
+<!--                  />-->
+<!--                </svg>-->
               </a>
               </div>
               <div class="filter__form-range">
@@ -48,375 +48,66 @@
                       type="text"
                       placeholder="5460"
                       v-model="minPrice"
-                      @change="filteringProduct"
+                      @change="filteringProducts"
                   />
                 </label>
                 <label>
                   <span>До</span>
                   <input type="text" placeholder="9000"
                          v-model="maxPrice"
-                         @change="filteringProduct"
+                         @change="filteringProducts"
                   />
                 </label>
               </div>
             </div>
-<!--            <div class="filter__form-field">-->
-<!--              <div class="filter__form-top">-->
-<!--                <div class="filter__form-title">-->
-<!--                  <p>Бренд</p>-->
-<!--                  <a href="#" class="filter__form-reset filter__form-link">Сбросить</a>-->
-<!--                </div>-->
-<!--                <a class="filter__form-collapse">-->
-<!--                  <svg-->
+
+            <div v-for="(value, key) of filterData" :key="key">
+              <div class="filter__form-field" v-if="key !='color'">
+                <div class="filter__form-top">
+                  <div class="filter__form-title">
+                    <p>{{ key }}</p>
+                    <a class="filter__form-reset filter__form-link">Сбросить</a>
+                  </div>
+<!--                  <a class="filter__form-collapse">-->
+<!--                    <svg-->
 <!--                      width="16"-->
 <!--                      height="15"-->
 <!--                      viewBox="0 0 16 15"-->
 <!--                      fill="none"-->
 <!--                      xmlns="http://www.w3.org/2000/svg"-->
-<!--                  >-->
-<!--                    <path-->
+<!--                    >-->
+<!--                      <path-->
 <!--                        d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"-->
 <!--                        fill="#959595"-->
-<!--                    />-->
-<!--                  </svg>-->
-<!--                </a>-->
-<!--              </div>-->
-<!--              <input-->
+<!--                      />-->
+<!--                    </svg>-->
+<!--                  </a>-->
+                </div>
+<!--                <input-->
 <!--                  type="search"-->
 <!--                  class="filter__form-search"-->
 <!--                  placeholder="Поиск..."-->
-<!--              />-->
-<!--              <fieldset class="filter__form-fieldset">-->
-<!--                <div class="filter__form-check">-->
-<!--                  <input-->
+<!--                />-->
+                <fieldset class="filter__form-fieldset">
+                  <div class="filter__form-check" v-for="(arr,k) of value" :key="k">
+                    <input
+                      type="checkbox"
+                      class="filter__form-checkbox"
 
-<!--                      type="checkbox"-->
-<!--                      class="filter__form-checkbox"-->
-<!--                  />-->
-<!--                  <label >Marc Jacobs</label>-->
-<!--                </div>-->
-<!--                <div class="filter__form-check">-->
-<!--                  <input-->
-<!--                      type="checkbox"-->
-<!--                      class="filter__form-checkbox"-->
-<!--                  />-->
-<!--                  <label >Valentino</label>-->
-<!--                </div>-->
-<!--                <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Guess</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Dior</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Furia</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Dolce & Gabanna</label>-->
-<!--                    </div>-->
-<!--                  </fieldset>-->
-<!--                  <a class="filter__form-link filter__form-link&#45;&#45;desc"-->
-<!--                    >Очистить фильтр</a-->
-<!--                  >-->
-<!--                </div>-->
-<!--                <div class="filter__form-field">-->
-<!--                  <div class="filter__form-top">-->
-<!--                    <div class="filter__form-title">-->
-<!--                      <p>Размер</p>-->
-<!--                      <a href="#" class="filter__form-reset filter__form-link"-->
-<!--                        >Сбросить</a-->
-<!--                      >-->
-<!--                    </div>-->
-<!--                    <a class="filter__form-collapse">-->
-<!--                      <svg-->
-<!--                        width="16"-->
-<!--                        height="15"-->
-<!--                        viewBox="0 0 16 15"-->
-<!--                        fill="none"-->
-<!--                        xmlns="http://www.w3.org/2000/svg"-->
-<!--                      >-->
-<!--                        <path-->
-<!--                          d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"-->
-<!--                          fill="#959595"-->
-<!--                        />-->
-<!--                      </svg>-->
-<!--                    </a>-->
-<!--                  </div>-->
-<!--                  <input-->
-<!--                    type="search"-->
-<!--                    class="filter__form-search"-->
-<!--                    placeholder="Поиск..."-->
-<!--                  />-->
-<!--                  <fieldset class="filter__form-fieldset">-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >40 (Don’t know)</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >42 (XXS)</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >44 (XS)</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >46 (S)</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >48 (M)</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >50 (L)</label>-->
-<!--                    </div>-->
-<!--                  </fieldset>-->
-<!--                  <a class="filter__form-link filter__form-link&#45;&#45;desc"-->
-<!--                    >Очистить фильтр</a-->
-<!--                  >-->
-<!--                </div>-->
-<!--                <div class="filter__form-field">-->
-<!--                  <div class="filter__form-top">-->
-<!--                    <div class="filter__form-title">-->
-<!--                      <p>Сезон</p>-->
-<!--                      <a href="#" class="filter__form-reset filter__form-link"-->
-<!--                        >Сбросить</a-->
-<!--                      >-->
-<!--                    </div>-->
-<!--                    <a class="filter__form-collapse">-->
-<!--                      <svg-->
-<!--                        width="16"-->
-<!--                        height="15"-->
-<!--                        viewBox="0 0 16 15"-->
-<!--                        fill="none"-->
-<!--                        xmlns="http://www.w3.org/2000/svg"-->
-<!--                      >-->
-<!--                        <path-->
-<!--                          d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"-->
-<!--                          fill="#959595"-->
-<!--                        />-->
-<!--                      </svg>-->
-<!--                    </a>-->
-<!--                  </div>-->
-<!--                  <input-->
-<!--                    type="search"-->
-<!--                    class="filter__form-search"-->
-<!--                    placeholder="Поиск..."-->
-<!--                  />-->
-<!--                  <fieldset class="filter__form-fieldset">-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Лето</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Осень</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Зима</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Весна</label>-->
-<!--                    </div>-->
-<!--                  </fieldset>-->
-<!--                </div>-->
-<!--                <div class="filter__form-field">-->
-<!--                  <div class="filter__form-top">-->
-<!--                    <div class="filter__form-title">-->
-<!--                      <p>Состояние</p>-->
-<!--                      <a href="#" class="filter__form-reset filter__form-link"-->
-<!--                        >Сбросить</a-->
-<!--                      >-->
-<!--                    </div>-->
-<!--                    <a class="filter__form-collapse">-->
-<!--                      <svg-->
-<!--                        width="16"-->
-<!--                        height="15"-->
-<!--                        viewBox="0 0 16 15"-->
-<!--                        fill="none"-->
-<!--                        xmlns="http://www.w3.org/2000/svg"-->
-<!--                      >-->
-<!--                        <path-->
-<!--                          d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"-->
-<!--                          fill="#959595"-->
-<!--                        />-->
-<!--                      </svg>-->
-<!--                    </a>-->
-<!--                  </div>-->
-<!--                  <fieldset class="filter__form-fieldset">-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Хорошее</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Отличное</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Отличное</label>-->
-<!--                    </div>-->
-<!--                  </fieldset>-->
-<!--                </div>-->
-<!--                <div class="filter__form-field">-->
-<!--                  <div class="filter__form-top">-->
-<!--                    <div class="filter__form-title">-->
-<!--                      <p>Размер</p>-->
-<!--                      <a href="#" class="filter__form-reset filter__form-link"-->
-<!--                        >Сбросить</a-->
-<!--                      >-->
-<!--                    </div>-->
-<!--                    <a class="filter__form-collapse">-->
-<!--                      <svg-->
-<!--                        width="16"-->
-<!--                        height="15"-->
-<!--                        viewBox="0 0 16 15"-->
-<!--                        fill="none"-->
-<!--                        xmlns="http://www.w3.org/2000/svg"-->
-<!--                      >-->
-<!--                        <path-->
-<!--                          d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"-->
-<!--                          fill="#959595"-->
-<!--                        />-->
-<!--                      </svg>-->
-<!--                    </a>-->
-<!--                  </div>-->
-<!--                  <input-->
-<!--                    type="search"-->
-<!--                    class="filter__form-search"-->
-<!--                    placeholder="Поиск..."-->
-<!--                  />-->
-<!--                  <fieldset class="filter__form-fieldset">-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Хлопок</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Лён</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Шелк</label>-->
-<!--                    </div>-->
-<!--                    <div class="filter__form-check">-->
-<!--                      <input-->
-
-<!--                        type="checkbox"-->
-<!--                        class="filter__form-checkbox"-->
-<!--                      />-->
-<!--                      <label >Кашемир</label>-->
-<!--                    </div>-->
-<!--                  </fieldset>-->
-<!--                </div>-->
-                <div class="filter__form-field">
-                  <div class="filter__form-top">
-                    <div class="filter__form-title">
-                      <p>Цвет</p>
-                    </div>
-                    <a class="filter__form-collapse">
-                      <svg
-                        width="16"
-                        height="15"
-                        viewBox="0 0 16 15"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M1.93795 5.9208C1.93797 5.83388 1.96548 5.74892 2.01701 5.67666C2.06853 5.6044 2.14176 5.54809 2.22743 5.51485C2.3131 5.48161 2.40735 5.47293 2.49828 5.48991C2.58921 5.5069 2.67272 5.54878 2.73826 5.61026L8.18482 10.7164L13.6314 5.61026C13.7198 5.53021 13.8382 5.48591 13.9611 5.48691C14.084 5.48792 14.2016 5.53413 14.2885 5.61561C14.3754 5.69709 14.4247 5.80731 14.4258 5.92253C14.4268 6.03776 14.3796 6.14876 14.2942 6.23164L8.51607 11.6486C8.42817 11.731 8.30896 11.7773 8.18467 11.7773C8.06037 11.7773 7.94116 11.731 7.85326 11.6486L2.07513 6.23164C2.03161 6.19082 1.9971 6.14235 1.97356 6.08902C1.95002 6.03568 1.93792 5.97852 1.93795 5.9208Z"
-                          fill="#959595"
-                        />
-                      </svg>
-                    </a>
+                    />
+                    <label >{{ k }}</label>
                   </div>
+
+                </fieldset>
+                <a class="filter__form-link filter__form-link--desc">Очистить фильтр</a>
+              </div>
+            </div>
+
+
+            <div class="filter__form-field" v-if="Object.keys(filterData).find(el=>el==='color')">
+              <div class="filter__form-top">
+                <div class="filter__form-title"><p>Цвет</p></div>
+              </div>
                   <fieldset class="filter__form-colorset">
                     <div class="filter__form-color">
                       <input
@@ -467,13 +158,15 @@
 <!--                  Показать 65 товаров-->
 <!--                </button>-->
               </form>
-            </aside>
+        </aside>
+
+
             <div class="category__products">
               <div class="category__sort">
                 <p class="category__sort-text">Сортировать по:</p>
-                <a class="category__sort-link">Цене</a>
-                <a class="category__sort-link">Скидке</a>
-                <a class="category__sort-link">Дате</a>
+                <a class="category__sort-link" @click="sortPrice">Цене</a>
+                <a class="category__sort-link" @click="sortDiscount">Скидке</a>
+<!--                <a class="category__sort-link" @click="products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));">Дате</a>-->
               </div>
               <div class="mob__sort">
                 <div class="mob__sort-filter">
@@ -482,7 +175,7 @@
                 </div>
                 <a class="category__sort-link--mob">Цене</a>
               </div>
-              <div class="category__selected" v-if="filters.length">
+              <div class="category__selected">
                 <a class="category__selected-item"
                   ><span>черный</span
                   ><img src="@/assets/images/white-close.svg" alt=""
@@ -510,9 +203,32 @@
               </div>
               <p class="category__products-text" v-if="beforeProducts">{{beforeProducts}}</p>
               <div class="category__products-cards cards">
-                  <Card class="card category-card"
-                        v-for="p of products" :key="p.id" :card-data="p.id"
-                        @childData="handleChildData" />
+                <v-lazy
+                  :options="{'threshold':0.2}"
+                  transition="scale-transition"
+                  class="card category-card" v-for="product of products" :key="product.id">
+                  <div v-if="product && product.id">
+                    <div class="recommend__card-img card-img">
+                      <PhotoChange :photo="product.photo" :photo-array="product.photos" @click="$router.push('/product/'+product.id)"/>
+                      <div class="recommend__card-sign card-sign" v-if="product.condition"> {{ product.condition }} </div>
+                      <div class="recommend__actions card-actions">
+                        <div class="recommend__actions-left" @click.prevent="sessionStore.toCart(product.id)">{{sessionStore.cart.find(el=>el.id === product.id)?"Уже в корзине":"В корзину"}}</div>
+                        <div class="recommend__actions-right card-actions-right">
+                          <!--          <a :href="shop[this.cardData.toString()].photo" target="_blank" class="recommend__actions-icon card-actions-icon"><img src="@/assets/images/eye.svg" alt="" /></a>-->
+                          <div class="recommend__actions-icon card-actions-icon">
+                            <TheHeart :p-id="product.id" />
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <p class="recommend__card-name">{{ product.name }}</p>
+                    <div class="recommend__card-prices">
+                      <div class="recommend__card-newprice">{{product.price}} руб</div>
+                      <div class="recommend__card-oldprice" v-if="product.oldPrice">{{ product.oldPrice }} руб</div>
+                    </div>
+                  </div>
+                </v-lazy>
               </div>
               <p class="category__products-text" v-if="afterProducts">{{afterProducts}}
               </p>
@@ -635,55 +351,100 @@
       </div>
     </div>
   </div>
+
+<!--  search loader -->
+  <v-dialog
+    v-model="loader"
+    :scrim="false"
+    persistent
+    width="200px"
+  >
+    <v-card>
+      <v-card-text>
+        Поиск по каталогу
+        <v-progress-linear indeterminate
+          color="#eb681e" class="mb-0"
+        ></v-progress-linear>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
 import API from '../api.js'
-import {useShopStore} from "@/store/shop";
-import {useSessionStore} from "@/store/session";
 import Card from "@/components/Card";
+import PhotoChange from "@/components/PhotoChange";
+
+import TheHeart from "@/components/TheHeart";
+import {useSessionStore} from "@/store/session";
+
+
 
 export default {
-  components: {Card},
+  components: {Card,TheHeart, PhotoChange},
   data(){return{
-    products:[], title:null, filters:[], afterProducts:"", beforeProducts:"",
-    minPrice:"",maxPrice:"",filterData:[]
+    products:[], allProducts:[],
+    title:"", afterProducts:"", beforeProducts:"",
+    filterData:[],colors:[], filters:[], minPrice:null,maxPrice:null,
+
+    loader:false,
+    sortP:false, sortD:false,
   }},
   computed:{
-    shopStore(){return useShopStore()},
     sessionStore(){return useSessionStore()},
-    colorsFilter(){},
-    attrFilters(){}
+    // title(){
+    //   if (this.$route.params.categoryId && useShopStore().categoriesTree && useShopStore().categoriesTree.find(el=>el.id === cat)){
+    //     return useShopStore().categoriesTree.find(el=>el.id === this.$route.params.categoryId).name
+    //   }
+    // }
   },
   methods:{
     start(){
-      let query,attr,cat,page=1
+      this.products=[]
+      let query,attr,cat
 
       if (this.$route.params.categoryId){
-        //parent ===0 бежим по всем дочерним
         cat = this.$route.params.categoryId
-        //title = cat name
       }
       if (this.$route.params.query){
         query = this.$route.params.query
         this.title = this.$route.params.query
       }
-      API.searchProducts(query,attr,cat,page).then(value => {
-        if (value.data.success) {
+      this.loader = true
+      API.searchProducts(query,attr,cat).then(value => {
+        this.loader = false
+        if (value.data.total>0) {
+          this.total =value.data.total
+          this.allProducts = value.data.products
           this.products = value.data.products
           if (value.data.category) {
             this.title = value.data.category.name
             this.afterProducts = value.data.category.afterProducts
             this.beforeProducts = value.data.category.beforeProducts
           }
+          if (value.data.filters) this.filterData = value.data.filters
+          if (value.data.colors) this.colors = value.data.colors
         }
       })
+      setTimeout(()=>this.loader = false, 12000)
     },
-    handleChildData(data){
-      this.filterData.push(data)
+    sortPrice(){
+      if (!this.sortP) this.products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      else this.products.sort((b, a) => parseFloat(a.price) - parseFloat(b.price));
+      this.sortP = !this.sortP
     },
-    filteringProduct(){
+    sortDiscount(){
+      if (!this.sortD) this.products.sort((a, b) => (a.oldPrice-a.price) - (b.oldPrice-b.price));
+      else this.products.sort((b, a) => (a.oldPrice-a.price) - (b.oldPrice-b.price));
+      this.sortD = !this.sortD
+    },
+    filteringProducts(){
+      let result=this.allProducts
+      if (this.minPrice) result=result.filter(el=>el.price >= this.minPrice)
+      if (this.maxPrice) result=result.filter(el=>el.price <= this.maxPrice)
 
+
+      this.products = result
     }
   },
   watch: {
@@ -700,6 +461,12 @@ export default {
 
 }
 </script>
+
+<style>
+.category{
+  min-height: calc(100vh - 400px);
+}
+</style>
 
 
 

@@ -1,5 +1,5 @@
 <template>
-  <section class="why">
+  <section class="why" v-if="mainPage">
     <div class="container">
         <h1 class="main-title why__title">
         Почему мы берем комиссию с продавца?
@@ -21,8 +21,11 @@
 <script>
 import {useSessionStore} from "@/store/session";
 export default {
-  computed:{
-    mainPage(){return useSessionStore().mainPage},
+  computed: {
+    mainPage() {
+      if(useSessionStore().settings.find(el => el.setting_type === "mainPage"))
+        return JSON.parse(useSessionStore().settings.find(el => el.setting_type === "mainPage").setting_json)
+    },
   }
 }
 </script>

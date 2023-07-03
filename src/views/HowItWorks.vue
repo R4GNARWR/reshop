@@ -2,16 +2,17 @@
     <main>
       <section class="info">
         <div class="container">
-          <h1 class="info__title">Как это работатет</h1>
-          <p class="info__italic">Что напишем?</p>
+          <div v-html="content"></div>
         </div>
       </section>
     </main>
 </template>
 
 <script>
-export default {
+import {useSessionStore} from "@/store/session";
 
+export default {
+  computed:{content(){return JSON.parse(useSessionStore().settings.find(el=>el.setting_type==="HowItWorks").setting_json)},}
 }
 </script>
 

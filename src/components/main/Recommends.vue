@@ -19,9 +19,13 @@ import Card from '../Card.vue'
 export default {
   components: { Card },
   computed:{
-    sets(){
-      this.currentTab=useSessionStore().mainPage.sets?useSessionStore().mainPage.sets[0].title:""
-      return useSessionStore().mainPage.sets}
+    sets() {
+      if (useSessionStore().settings.find(el=>el.setting_type==="sets")){
+        let sets  = JSON.parse(useSessionStore().settings.find(el=>el.setting_type==="sets").setting_json)
+        this.currentTab = sets[0].title
+        return sets
+      } else return null
+    }
   },
   data() {
     return {
@@ -35,7 +39,7 @@ export default {
         this.currentTab = category
     },
     getReccomendCategoryProducts() {
-      if (this.sets)
+      if (this.sets && this.currentTab)
         return this.sets.find(el=>el.title === this.currentTab).look
     }
   }

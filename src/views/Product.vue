@@ -1,53 +1,53 @@
 <template>
   <section class="product-page">
-        <div class="container">
-          <div class="product-page__breadcrumb breadcrumb" v-if="category">
-            <router-link to="/">Главная</router-link>
-            <router-link :to="'/category/'+category.parentId">{{ parentCategory(category.parentId) }}</router-link>
-            <router-link :to="'/category/'+category.id">{{ category.name }}</router-link>
-          </div>
-          <div class="product-page__wrapper">
-            <div class="product-page__images">
-              <div class="product-page__top-slider">
-                <div class="product-page__top-wrapper" v-if="fullPhoto.length>0">
-                  <div class="product-page__top-img">
-                    <img :src="theImg" alt="" />
-                  </div>
-                </div>
-                <div class="product-page__top-wrapper" v-else>
-                  <div class="product-page__top-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                  </div>
-                </div>
-              </div>
-              <div class="product-page__bottom-slider">
-                <div class="product-page__bottom-wrapper">
-                  <div class="product-page__bottom-img" v-for="(img, index) of photosPreview" :key="img">
-                    <img :src="img" alt="" @click="theImg = fullPhoto[index]"/>
-                  </div>
-                </div>
+    <div class="container">
+      <div class="product-page__breadcrumb breadcrumb" v-if="category">
+        <router-link to="/">Главная</router-link>
+        <router-link :to="'/category/'+category.parent">{{ parentCategory(category.parent) }}</router-link>
+        <router-link :to="'/category/'+category.id">{{ category.name }}</router-link>
+      </div>
+      <div class="product-page__wrapper" v-if="product">
+        <div class="product-page__images">
+          <div class="product-page__top-slider">
+            <div class="product-page__top-wrapper" v-if="product.photosPreview.length>0">
+              <div class="product-page__top-img">
+                <img :src="theImg" alt="" />
               </div>
             </div>
-            <div class="product-page__info">
-              <div class="product-page__info-viewers">
-                Этот товар сейчас смотрят: {{ people }} человек
+            <div class="product-page__top-wrapper" v-else>
+              <div class="product-page__top-img">
+                <img src="@/assets/images/product.svg" alt="" />
               </div>
-              <h1 class="product-page__info-name">{{ product.name }}</h1>
-              <div class="product-page__info-light" v-if="attributes.brand">{{ attributes.brand }}</div>
-              <div class="product-page__info-light">Артикул: {{product.article}}</div>
-              <div class="product-page__sizes" v-if="attributes.sizes && attributes.sizes.length>0">
-                <div class="product-page__sizes-text">Размер:</div>
-                <div class="product-page__sizes-items" v-for="s of attributes.sizes" :key="s">
-                  <div class="product-page__sizes-item">{{ s }}</div>
-                </div>
+            </div>
+          </div>
+          <div class="product-page__bottom-slider">
+            <div class="product-page__bottom-wrapper">
+              <div class="product-page__bottom-img" v-for="(img, index) of product.photosPreview" :key="img">
+                <img :src="img" alt="" @click="theImg = product.photosPreview[index]"/>
               </div>
-              <p class="product-page__info-text">Материал: {{ product.structure }}</p>
-              <p class="product-page__info-text">{{product.description}}</p>
-              <div class="product-page__actions">
-                <div class="product-page__prices">
-                  <div class="product-page__newprice">{{ product.price }} р.</div>
-                  <div class="product-page__oldprice" v-if="product.oldPrice">{{ product.oldPrice }} р.</div>
-                </div>
+            </div>
+          </div>
+        </div>
+        <div class="product-page__info">
+          <div class="product-page__info-viewers">
+            Этот товар сейчас смотрят: {{ people }} человек
+          </div>
+          <h1 class="product-page__info-name">{{ product.name }}</h1>
+          <div class="product-page__info-light" v-if="attributes.brand">{{ attributes.brand }}</div>
+          <div class="product-page__info-light">Артикул: {{product.article}}</div>
+          <div class="product-page__sizes" v-if="attributes.sizes && attributes.sizes.length>0">
+            <div class="product-page__sizes-text">Размер:</div>
+            <div class="product-page__sizes-items" v-for="s of attributes.sizes" :key="s">
+              <div class="product-page__sizes-item">{{ s }}</div>
+            </div>
+          </div>
+          <p class="product-page__info-text">Материал: {{ product.structure }}</p>
+          <p class="product-page__info-text">{{product.description}}</p>
+          <div class="product-page__actions">
+            <div class="product-page__prices">
+              <div class="product-page__newprice">{{ product.price }} р.</div>
+              <div class="product-page__oldprice" v-if="product.oldPrice">{{ product.oldPrice }} р.</div>
+            </div>
                 <TheHeart :pId="product.id"/>
                 <a :href="'https://wa.me/79876203930?text=Здравствуйте%20у%20меня%20вопрос по товару '+product.name+': '" target="_blank" class="product-page__actions-whatsapp">
                   <svg
@@ -100,26 +100,28 @@
             </div>
             <div class="product-page__desc-item">
               <a class="product-page__desc-tab">Доставка, оплата, возврат</a>
-              <div class="product-page__desc-body" v-for="text of sessionStore.mainSettings.deliveries" :key="text">
+              <div class="product-page__desc-body" v-for="text of deliveries" :key="text">
                 <h3>{{text.title}}</h3>
                 <p>{{text.description}}</p>
               </div>
-              <div class="product-page__desc-body" v-for="text of sessionStore.mainSettings.payments" :key="text">
+              <div class="product-page__desc-body" v-for="text of payments" :key="text">
                 <h3>{{text.title}}</h3>
                 <p>{{text.description}}</p>
               </div>
             </div>
           </div>
-          <h1 class="product-page__title" v-if="look && look.length>1">С этим товаром в луке</h1>
+          <h1 class="product-page__title" v-if="theLook && theLook.look.length>1">С этим товаром в луке</h1>
           <div class="product-page__cards cards" v-if="look && look.length>1">
             <Card v-for="pId of look" :cardData="pId" :key="pId" />
           </div>
-          <h1 class="product-page__title" v-if="theLook">{{theLook.title}}</h1>
+          <h2 v-if="theLook">{{theLook.title}}</h2>
           <div class="product-page__cards cards" v-if="theLook">
             <Card v-for="pId of theLook.look" :cardData="pId" :key="pId" />
           </div>
         </div>
       </section>
+
+<!--  предложить скидку-->
       <div v-if="discount" class="registration">
         <v-card class="registration__window" v-click-outside="closeDiscount">
           <v-card-title>Ваше предложение</v-card-title>
@@ -186,7 +188,6 @@
 </template>
 
 <script>
-import API from '../api.js'
 import {useShopStore} from "@/store/shop";
 import {useSessionStore} from "@/store/session";
 import Card from "@/components/Card";
@@ -195,9 +196,15 @@ import TheHeart from "@/components/TheHeart";
 export default {
   components: {TheHeart, Card },
   computed:{
-    shopStore(){return useShopStore().categoriesTree},
     sessionStore(){return useSessionStore()},
-    theLook(){if (useSessionStore().mainPage && useSessionStore().mainPage.sets)return useSessionStore().mainPage.sets[0] },
+    deliveries(){
+      if (useSessionStore().settings.find(el=>el.setting_type==='deliveries'))
+        return JSON.parse(useSessionStore().settings.find(el=>el.setting_type==='deliveries').setting_json)
+    },
+    payments(){
+      if (useSessionStore().settings.find(el=>el.setting_type==='payments'))
+        return JSON.parse(useSessionStore().settings.find(el=>el.setting_type==='payments').setting_json)
+    },
     statusText(){
       let result ="Пожалуйста заполните поля: ", e=0
         if (!this.formData.name){result+=" Имя"; e++}
@@ -214,26 +221,56 @@ export default {
 
         if (this.status.length>0) result = this.status
         return result
+      },
+    product(){
+      let tmp = useShopStore().products[this.$route.params.pId]
+      if (tmp) {
+        this.theImg=tmp.photosPreview[0]
+        this.people = Math.floor(Math.random() * 9) + 1
+            window.scroll(0,0);
+            this.attributes={};
+            this.look=[];
+        this.attributes.sizes=[]
+        for (let attr of tmp.attributes){
+          if (attr.attributeTitle ==='brand') this.attributes.brand=attr.attributeValueText
+          else if (attr.attributeTitle ==='size') this.attributes.sizes.push(attr.attributeValueText)
+            // else if (attr.attributeTitle ==='condition') this.attributes.condition=attr.attributeValueText
+          // else if (attr.attributeTitle ==='season') this.attributes.seasons.push(attr.attributeValueText)
+          else if (this.attributes[attr.frontName])
+            this.attributes[attr.frontName].push(attr.attributeValueText)
+          else this.attributes[attr.frontName]=[attr.attributeValueText]
+        }
+
+        if (useSessionStore().settings.find(el=>el.setting_type==='sets'))
+          for (let set of JSON.parse(useSessionStore().settings.find(el=>el.setting_type==='sets').setting_json)){
+            if (set.look.includes(tmp.id))this.theLook = set
+          }
       }
+
+      return tmp
+    },
+    category(){
+      if(this.product && useShopStore().categoriesTree)
+        return useShopStore().categoriesTree.find(el=>el.id === this.product.category_id)
+    }
+
   },
-  data(){return{
-    product:{}, category:{}, look:[],
+  data(){return{look:[],
     fullPhoto:[], photosPreview:[], attributes:{},
     discount:false,formData:{}, status:"",
-    theImg:"", people:2
+    theImg:"", people:2, theLook:null
   }},
-  watch: {
-    '$route'(newRoute, oldRoute) {if (oldRoute && newRoute !== oldRoute.params.productId) {
-      window.scroll(0,0);
-      this.attributes={};
-      this.look=[];
-      this.start()
-    }},
-  },
+  // watch: {
+  //   '$route'(newRoute, oldRoute) {if (oldRoute && newRoute !== oldRoute.params.pId) {
+  //     window.scroll(0,0);
+  //     this.attributes={};
+  //     this.look=[];
+  //   }},
+  // },
   methods:{
     parentCategory(id){
-      if (useShopStore().categoriesTree.find(el=>el.id ==id))
-        return useShopStore().categoriesTree.find(el=>el.id ==id).name
+      if (useShopStore().categoriesTree.find(el=>el.id ===id))
+        return useShopStore().categoriesTree.find(el=>el.id ===id).name
     },
     showDiscount(){setTimeout(()=>this.discount=true,300)},
     closeDiscount(){setTimeout(()=>this.discount=false,300)},
@@ -241,34 +278,7 @@ export default {
       this.discount=false
       this.sessionStore.showMsg("Мы получили ваше предложение и свяжемся с вами в ближайшее время")
     },
-    start(){
-      API.getProductById(this.$route.params.pId).then(value => {
-        if(value.data.status){
-          this.people = Math.floor(Math.random() * 9) + 1
-          this.product = value.data.response.product
-          this.category = value.data.response.category
-          this.look = value.data.response.look.split(', ')
-          if (this.look===[""])this.look=[]
-          this.fullPhoto = value.data.response.fullPhotos
-          if (this.fullPhoto.length>0) this.theImg = this.fullPhoto[0]
-          this.photosPreview = value.data.response.photosPreview
-          this.attributes.sizes=[]
-          // this.attributes.seasons=[]
-          for (let attr of value.data.response.attributes){
-            if (attr.attributeTitle ==='brand') this.attributes.brand=attr.attributeValueText
-            else if (attr.attributeTitle ==='size') this.attributes.sizes.push(attr.attributeValueText)
-              // else if (attr.attributeTitle ==='condition') this.attributes.condition=attr.attributeValueText
-            // else if (attr.attributeTitle ==='season') this.attributes.seasons.push(attr.attributeValueText)
-            else if (this.attributes[attr.frontName])
-              this.attributes[attr.frontName].push(attr.attributeValueText)
-            else this.attributes[attr.frontName]=[attr.attributeValueText]
-          }
-        }
-      })
-    }
   },
-  created() {
-    this.start()
-  }
+  created() {useShopStore().getProduct(this.$route.params.pId)}
 }
 </script>

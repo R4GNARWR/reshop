@@ -10,8 +10,8 @@
         <div>
           <h1 class="main-title contacts__title">Наш магазин в <span>{{ contact.title }}</span></h1>
           <div class="contacts__inner">
-            <div class="contacts__map">
-              <PhotoChange :photo-array="contact.photos" class="the__img"/>
+            <div class="contacts__map" style="max-width: 60%">
+              <PhotoChange :photo-array="contact.photos" class="the__img" />
 <!--              <img v-if="contact." src="@/assets/images/slide-img.svg" alt="" />-->
 <!--              <img src="@/assets/images/slide-img.svg" alt="" />-->
             </div>
@@ -92,7 +92,8 @@ export default {
   },
   computed:{
     contacts(){
-      return useSessionStore().mainSettings.contacts}
+      if(useSessionStore().settings.find(el=>el.setting_type==="contacts"))
+        return JSON.parse(useSessionStore().settings.find(el=>el.setting_type==="contacts").setting_json)}
   },
   setup() {
     return {
