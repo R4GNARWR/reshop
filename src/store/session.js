@@ -29,7 +29,8 @@ export const useSessionStore = defineStore('session', {
       "Tommy Hilfiger",
       "Zara",
       'Zarina'
-    ]
+    ],
+    searchResult:{}
 
   }),
   actions: {
@@ -65,6 +66,9 @@ export const useSessionStore = defineStore('session', {
       }
     },
 
+    setSearchResult(key,data){
+      this.searchResult[key] = data
+    },
     setCart(data){
       this.cart=data
       // for (let p of data)

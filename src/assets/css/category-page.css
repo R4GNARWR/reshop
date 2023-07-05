@@ -215,6 +215,8 @@
   width: 39px;
   height: 39px;
   position: relative;
+  border: solid 0.25px #f0f0f0;
+  border-radius: 5px;
 }
 
 .filter__form-color input {
@@ -223,6 +225,7 @@
   height: 100%;
   opacity: 0;
   z-index: 1;
+  border-radius: 5px;
 }
 
 .filter__form-color-checkbox + label {
@@ -245,18 +248,7 @@
   transition: 0.2s;
   transform: translateY(-50%);
 }
-.filter__form-color-checkbox + label:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 3px;
-  width: 33px;
-  height: 33px;
-  border-radius: 5px;
-  background: #d21e95;
-  transition: 0.2s;
-  transform: translateY(-50%);
-}
+
 
 .filter__form-color-checkbox:not(:checked) + label:before {
   border: 1px solid #ffffff00;

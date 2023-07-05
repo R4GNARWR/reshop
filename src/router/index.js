@@ -1,5 +1,6 @@
 // Composables
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
+
 
 const routes = [
   {
@@ -46,11 +47,13 @@ const routes = [
   },
   {
     path: '/category/:categoryId',
-    component:()=>import('@/views/Category.vue')
+    component:()=>import('@/views/Category.vue'),
+    meta: { requiresCache: true }
   },
   {
     path: '/search/:query',
-    component:()=>import('@/views/Category.vue')
+    component:()=>import('@/views/Category.vue'),
+    meta: { requiresCache: true }
   },
   {
     path: '/product/:pId',
@@ -63,8 +66,9 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
+  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+  history: createWebHistory(),
+  routes, // short for `routes: routes`
 })
 
 export default router

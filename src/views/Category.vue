@@ -66,7 +66,7 @@
                 <div class="filter__form-top">
                   <div class="filter__form-title">
                     <p>{{ key }}</p>
-                    <a class="filter__form-reset filter__form-link">Сбросить</a>
+<!--                    <a class="filter__form-reset filter__form-link">Сбросить</a>-->
                   </div>
 <!--                  <a class="filter__form-collapse">-->
 <!--                    <svg-->
@@ -93,13 +93,15 @@
                     <input
                       type="checkbox"
                       class="filter__form-checkbox"
-
+                      @click="filterClick(key+':'+k)"
+                      :checked="actualFilters.includes(key+':'+k)"
                     />
                     <label >{{ k }}</label>
+
                   </div>
 
                 </fieldset>
-                <a class="filter__form-link filter__form-link--desc">Очистить фильтр</a>
+<!--                <a class="filter__form-link filter__form-link&#45;&#45;desc">Очистить фильтр</a>-->
               </div>
             </div>
 
@@ -109,50 +111,18 @@
                 <div class="filter__form-title"><p>Цвет</p></div>
               </div>
                   <fieldset class="filter__form-colorset">
-                    <div class="filter__form-color">
-                      <input
-                        type="checkbox"
-                        class="filter__form-color-checkbox"
-                      />
-                      <label></label>
-                    </div>
-                    <div class="filter__form-color">
-                      <input
-                        type="checkbox"
-                        class="filter__form-color-checkbox yellow"
-                      />
-                      <label></label>
-                    </div>
-                    <div class="filter__form-color">
-                      <input
-                        type="checkbox"
-                        class="filter__form-color-checkbox red"
-                      />
-                      <label></label>
-                    </div>
-                    <div class="filter__form-color">
-                      <input
-                        type="checkbox"
-                        class="filter__form-color-checkbox black"
-                      />
-                      <label></label>
-                    </div>
-                    <div class="filter__form-color">
+                    <div class="filter__form-color" v-for="color of Object.keys(filterData.color)"
+                    @click="filterClick('color:'+color)"
+                    >
                       <input
                         type="checkbox"
                         class="filter__form-color-checkbox white"
+                        v-if="colors.colors.find(el=>el.colorId===parseInt(color))" :style="'background-color:'+colors.colors.find(el=>el.colorId===parseInt(color)).color_code"
                       />
-                      <label></label>
-                    </div>
-                    <div class="filter__form-color">
-                      <input
-                        type="checkbox"
-                        class="filter__form-color-checkbox blue"
-                      />
-                      <label></label>
+                      <label v-if="colors.colors.find(el=>el.colorId===parseInt(color))" :style="'background-color:'+colors.colors.find(el=>el.colorId===parseInt(color)).color_code"></label>
                     </div>
                   </fieldset>
-                  <a class="filter__form-link">Очистить фильтр</a>
+<!--                  <a class="filter__form-link">Очистить фильтр</a>-->
                 </div>
 <!--                <button class="filter__form-btn btn">-->
 <!--                  Показать 65 товаров-->
@@ -175,31 +145,14 @@
                 </div>
                 <a class="category__sort-link--mob">Цене</a>
               </div>
-              <div class="category__selected">
+              <div class="category__selected" v-if="actualFilters">
                 <a class="category__selected-item"
-                  ><span>черный</span
+                   v-for="(v,index) of actualFilters" :key="index"
+                  ><span>{{v.substr(v.lastIndexOf(':')+1)}}</span
                   ><img src="@/assets/images/white-close.svg" alt=""
+                        @click="actualFilters.splice(index,1); filteringProducts()"
                 /></a>
-                <a class="category__selected-item"
-                  ><span>46 (S)</span
-                  ><img src="@/assets/images/white-close.svg" alt=""
-                /></a>
-                <a class="category__selected-item"
-                  ><span>Guess</span
-                  ><img src="@/assets/images/white-close.svg" alt=""
-                /></a>
-                <a class="category__selected-item"
-                  ><span>черный</span
-                  ><img src="@/assets/images/white-close.svg" alt=""
-                /></a>
-                <a class="category__selected-item"
-                  ><span>46 (S)</span
-                  ><img src="@/assets/images/white-close.svg" alt=""
-                /></a>
-                <a class="category__selected-item"
-                  ><span>Guess</span
-                  ><img src="@/assets/images/white-close.svg" alt=""
-                /></a>
+
               </div>
               <p class="category__products-text" v-if="beforeProducts">{{beforeProducts}}</p>
               <div class="category__products-cards cards">
@@ -359,7 +312,7 @@
     persistent
     width="200px"
   >
-    <v-card>
+    <v-card rounded="10">
       <v-card-text>
         Поиск по каталогу
         <v-progress-linear indeterminate
@@ -381,11 +334,12 @@ import {useSessionStore} from "@/store/session";
 
 
 export default {
+  cache: true,
   components: {Card,TheHeart, PhotoChange},
   data(){return{
     products:[], allProducts:[],
     title:"", afterProducts:"", beforeProducts:"",
-    filterData:[],colors:[], filters:[], minPrice:null,maxPrice:null,
+    filterData:[],colors:[], actualFilters:[], minPrice:null,maxPrice:null,
 
     loader:false,
     sortP:false, sortD:false,
@@ -410,9 +364,10 @@ export default {
         query = this.$route.params.query
         this.title = this.$route.params.query
       }
-      this.loader = true
-      API.searchProducts(query,attr,cat).then(value => {
-        this.loader = false
+
+      let key={query:query, attr:attr, category_id:cat}
+      if (useSessionStore().searchResult[JSON.stringify(key)]) {
+        let value= useSessionStore().searchResult[JSON.stringify(key)]
         if (value.data.total>0) {
           this.total =value.data.total
           this.allProducts = value.data.products
@@ -425,7 +380,25 @@ export default {
           if (value.data.filters) this.filterData = value.data.filters
           if (value.data.colors) this.colors = value.data.colors
         }
-      })
+      } else{
+        this.loader = true
+        API.searchProducts(query,attr,cat).then(value => {
+          this.loader = false
+          if (value.data.total>0) {
+            this.total =value.data.total
+            this.allProducts = value.data.products
+            this.products = value.data.products
+            if (value.data.category) {
+              this.title = value.data.category.name
+              this.afterProducts = value.data.category.afterProducts
+              this.beforeProducts = value.data.category.beforeProducts
+            }
+            if (value.data.filters) this.filterData = value.data.filters
+            if (value.data.colors) this.colors = value.data.colors
+          }
+        })
+      }
+
       setTimeout(()=>this.loader = false, 12000)
     },
     sortPrice(){
@@ -444,18 +417,32 @@ export default {
       if (this.maxPrice) result=result.filter(el=>el.price <= this.maxPrice)
 
 
-      this.products = result
-    }
+      if (this.actualFilters.length>0){
+        let ids=[]
+        for (let filter of this.actualFilters){
+          let tmp=this.filterData[filter.toString().substring(0,filter.toString().indexOf(':'))][filter.toString().substring(filter.toString().indexOf(':')+1)]
+          if (ids.length===0) ids = tmp
+          else ids = ids.filter(element => tmp.includes(element));
+        }
+        this.products = result.filter(el=>ids.includes(el.id))
+      } else this.products = result
+    },
+    filterClick(filter){
+      if(this.actualFilters.findIndex(el=>el==filter)>-1) this.actualFilters.splice(this.actualFilters.findIndex(el=>el==filter),1)
+      else this.actualFilters.push(filter)
+      this.filteringProducts()
+    },
   },
   watch: {
     '$route'(newRoute, oldRoute) {
       if (oldRoute && newRoute !== oldRoute.params) {
+        console.log("changed")
         window.scroll(0, 0);
         this.start()
       }
     }
   },
-  created() {
+  beforeMount() {
    this.start()
   }
 

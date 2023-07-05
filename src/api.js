@@ -246,7 +246,14 @@ export default  {
 
 
     searchProductsVariants(query){return this.axios.get('search-products', {params: {query: query }})},
-    searchProducts(query,attr, cat){return this.axios.get('main-search',{params:{query:query, attr:attr, category_id:cat}}).then(value => {return value;})},
+
+  searchProducts(query,attr, cat){
+    const store = useSessionStore()
+    let key={query:query, attr:attr, category_id:cat}
+    return this.axios.get('main-search',{params:key})
+      .then(value => {
+        store.setSearchResult(JSON.stringify(key), value)
+        return value;})},
   // searchProducts(query,attr, cat, page){return this.axios.get('products',{params:{query:query, attr:attr, categoryId:cat, per_page: 99, page:page}}).then(value => {return value;})},
 
     get_payments_history(){return this.axios.get('account/billing/history')},
