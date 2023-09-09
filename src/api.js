@@ -17,6 +17,7 @@ export default  {
     const store =useSessionStore()
     this.axios.interceptors.request.use(
       config => {
+        config.headers.xUserToken = "";
         if(localStorage.user_token)
           config.headers.xUserToken = localStorage.user_token;
         return config;
@@ -38,8 +39,8 @@ export default  {
   postRequest(link){
     return this.axios.post(link)
   },
-  putRequest(link){
-    return this.axios.put(link)
+  putRequest(link, data){
+    return this.axios.put(link.toString(), data,{ headers: {'Content-Type': 'application/json; charset=UTF-8'}})
   },
   delRequest(link){this.axios.delete(link)},
 
@@ -110,9 +111,9 @@ export default  {
       return this.axios.get("attributes").then(value => {
         if (value.data.success) {
           for (let attr of value.data.attributes) store.addAttr(attr)
-          let attr={}
-          if (store.attributes.length>0)
-            attr= store.attributes.find(el=>el.title==='brand')
+          // let attr={}
+          // if (store.attributes.length>0)
+          //   attr= store.attributes.find(el=>el.title==='brand')
           // if (attr.attributeId)
           //   this.getAttrValues(attr.attributeId).then(value => {
           //     if (value.data.success) {
@@ -254,6 +255,23 @@ export default  {
       .then(value => {
         store.setSearchResult(JSON.stringify(key), value)
         return value;})},
+
+  searchTwentyFive(q,sex, attrs, cats,cat_id,price_min,price_max,page){
+    let key={
+      query:q,
+      sex:sex,
+      attributes:attrs,
+      categoriesIds:cats,
+      category_id: cat_id,
+      price_min:price_min,
+      price_max:price_max,
+      page:page
+    }
+    return this.axios.get('search',{params:key})
+      .then(value => {
+        // store.setSearchResult(JSON.stringify(key), value)
+        return value;})
+  },
   // searchProducts(query,attr, cat, page){return this.axios.get('products',{params:{query:query, attr:attr, categoryId:cat, per_page: 99, page:page}}).then(value => {return value;})},
 
     get_payments_history(){return this.axios.get('account/billing/history')},

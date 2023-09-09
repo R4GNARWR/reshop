@@ -63,6 +63,7 @@ import Sales from '../components/cabinet/Sales.vue'
 import Subcriptions from '../components/cabinet/Subcriptions.vue'
 import UserData from '../components/cabinet/UserData.vue'
 import API from "@/api";
+import {useSessionStore} from "@/store/session";
 
 export default {
   components: { UserData, Payment, Subcriptions, Sales, Purchases, Messages, Favorites },
@@ -77,6 +78,14 @@ export default {
       API.logout()
       this.$router.push('/')
     }
+  },
+  created() {
+    if(!useSessionStore().user_info.id) router.push("/")
+    else
+    API.getRequest("user-data/"+useSessionStore().user_info.id).then(value => {
+      for (let d of value.data) useSessionStore().user_info[d.type] = JSON.parse(d.json)
+      }
+    )
   }
 }
 </script>

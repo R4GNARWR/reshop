@@ -137,7 +137,7 @@ export default {
             this.status = 'Успешно!';
             useSessionStore().setToken(value.data.token)
             useSessionStore().loggedIn(value.data.user)
-            // setTimeout(()=>router.push('/catalog'))
+            setTimeout(()=>this.closeModal(),1000)
           }
         }
       })

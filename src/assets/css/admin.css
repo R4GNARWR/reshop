@@ -273,7 +273,7 @@ body {
 
 /*End Header Style*/
 
-/* main { 
+/* main {
   display: flex;
   flex-grow: 1;
   position: relative;
@@ -942,12 +942,10 @@ body {
 
 .photo-edit {
   position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.259);
-  display: none;
   justify-content: center;
   align-items: center;
   z-index: 200;
@@ -2894,5 +2892,17 @@ body {
 
 .response {
   display: none;
+}
+
+.close_window{
+  color: #eb681e;
+  position: absolute;
+  top:20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.shadowed{
+  box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 }
 /*End Send Style*/

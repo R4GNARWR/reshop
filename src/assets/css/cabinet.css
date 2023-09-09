@@ -303,15 +303,16 @@
 
 .subscribe__filter-left {
   display: flex;
-  align-items: center;
+  align-items: start;
+
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 22px 8px;
-  width: 50%;
+  width: 30%;
 }
 
 .subscribe__filter-right {
-  width: 50%;
+  width: 65%;
   padding-top: 6px;
 }
 

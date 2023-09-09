@@ -11,6 +11,7 @@ import App from './App.vue'
 import { createApp } from 'vue'
 
 import '@/assets/css/style.css'
+import '@/assets/css/admin.css'
 import '@/assets/css/cabinet.css'
 import '@/assets/css/cart.css'
 import '@/assets/css/catalog.css'
@@ -25,9 +26,13 @@ import { registerPlugins } from '@/plugins'
 
 import vClickOutside from 'v-click-outside'
 
+import vSelect from "vue-select"
+import 'vue-select/dist/vue-select.css'
+
 const app = createApp(App)
 
 registerPlugins(app)
 
 app.use(vClickOutside)
+app.component("vv-select", vSelect)
 app.mount('#app')

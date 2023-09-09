@@ -1,5 +1,6 @@
 // Composables
 import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
+import VueScrollTo from "vue-scrollto"
 
 
 const routes = [
@@ -62,13 +63,25 @@ const routes = [
   {
     path: '/cabinet',
     component:()=>import('@/views/Cabinet.vue')
-  }
+  },
+  {
+    path: '/EditProduct/:categoryId/:productId',
+    component:()=>import('@/components/cabinet/EditProduct.vue')
+  },
 ]
 
 const router = createRouter({
   // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   history: createWebHistory(),
   routes, // short for `routes: routes`
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      VueScrollTo.scrollTo("#app", 500, { offset: savedPosition.y });
+      return savedPosition;
+    } else {
+      VueScrollTo.scrollTo("#app");
+    }
+  },
 })
 
 export default router

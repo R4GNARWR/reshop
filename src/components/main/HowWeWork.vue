@@ -99,14 +99,16 @@
           </div>
         </div>
         </div>
-        <a href="#" class="btn btn-r steps__btn">Продать товар</a>
+        <BtnAddProduct/>
     </div>
     </section>
 </template>
 
 <script>
 import {useSessionStore} from "@/store/session";
+import BtnAddProduct from "@/components/BtnAddProduct";
 export default {
+  components: {BtnAddProduct},
   computed:{
     hitSteps(){return useSessionStore().mainPage.hitSteps},
   },

@@ -5,7 +5,7 @@
                 <h2 class="cabinet__body-title">Платежные данные</h2>
                 <h3 class="cabinet__payment-title">Для оплаты на сайте</h3>
                 <div class="cabinet__payment-cards">
-                    <a href="#" class="payment__card">
+                    <a href="#" class="payment__card" v-if="cards.length">
                     <div class="payment__card-top">Основная карта</div>
                     <div class="payment__card-bottom">
                         <div class="payment__card-number">
@@ -23,7 +23,7 @@
                         alt=""
                         class="payment__addcard-img"
                     />
-                    <p class="payment__addcard-text">Добавить карту</p>
+                    <p class="payment__addcard-text">Пока не доступно</p>
                     </a>
                 </div>
                 <div class="award">
@@ -39,27 +39,31 @@
                     <input
                         class="award__form-input"
                         type="text"
-                        placeholder="БИК банка получателя"
+                        placeholder="Получатель"
+                        v-model="account['receiver']"
                     />
                     <input
                         class="award__form-input"
                         type="text"
-                        placeholder="Банк получателя"
+                        placeholder="БИК банка получателя"
+                        v-model="account['bik']"
                     />
                     <input
                         class="award__form-input"
                         type="text"
                         placeholder="Счет получателя"
+                        v-model="account['number']"
                     />
-                    <input
-                        class="award__form-input"
-                        type="text"
-                        placeholder="Корреспондентский счет"
-                    />
+<!--                    <input-->
+<!--                        class="award__form-input"-->
+<!--                        type="text"-->
+<!--                        placeholder="Корреспондентский счет"-->
+<!--                    />-->
                     <input
                         class="award__form-input"
                         type="text"
                         placeholder="ИНН получателя"
+                        v-model="account['inn']"
                     />
                     </form>
                     <div class="cabinet__commision">
@@ -77,7 +81,11 @@
                         fill="black"
                         />
                     </svg>
-                    <a href="#">Договор комиссии</a>
+                    <router-link to="/">Договор комиссии</router-link>
+
+                      <a class="content__save btn" style="margin-top: 20px; max-width: 300px"
+                         @click="saveIt()">Сохранить</a>
+
                 </div>
                 </div>
             </div>
@@ -169,11 +177,44 @@
             </div>
             </div>
         </div>
+
+<!--     todo: сохранить данные карты -->
+
+
+{{user_info}}
     </div>
 </template>
 
 <script>
+import api from "@/api";
+import {useSessionStore} from "@/store/session";
 export default {
+  data(){
+    return{
+      cards:[], account:{}
+    }
+  },
+  computed:{
+    user_info(){
+      return useSessionStore().user_info}
+  },
+  methods:{
+    saveIt(){
+      let userData = {
+        userId:useSessionStore().user_info.id,
+        type:"accounts",
+        json:JSON.stringify(this.account)
+      }
+      api.putRequest("user-data",userData)
+      //cards
+      //account
+    }
+  },
+  created() {
+    if(useSessionStore().user_info && useSessionStore().user_info["accounts"])
+      this.account = useSessionStore().user_info["accounts"]
+  }
+
 
 }
 </script>

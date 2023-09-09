@@ -5,7 +5,7 @@
                 <div class="sales__top">
                     <div class="sales__left">
                         <h1 class="sales__title">Продажи</h1>
-                        <a href="#" class="sales__btn btn btn-r">Предложить товар</a>
+                        <BtnAddProduct/>
                         <div class="sales__categories">
                             <a href="#" class="sales__category">В продаже</a>
                             <a href="#" class="sales__category">Предложенные</a>
@@ -357,8 +357,9 @@
 </template>
 
 <script>
+import BtnAddProduct from "@/components/BtnAddProduct";
 export default {
-
+  components: {BtnAddProduct}
 }
 </script>
 

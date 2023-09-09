@@ -1,265 +1,259 @@
 <template>
-    <div>
-        <div class="cabinet__body">
-            <div class="subscribe">
-                <h1 class="subscribe__title">Новые поступления товаров ваших размеров:</h1>
-                <div class="subscribe__filter">
-                    <div class="subscribe__filter-left">
-                        <div class="subscribe__select">
-                            <select name="category">
-                                <option value="Сумки" class="subscribe__option">Категория</option>
-                                <option value="Сумки" class="subscribe__option">Сумки</option>
-                                <option value="Сумки" class="subscribe__option">Аксессуары</option>
-                                <option value="Сумки" class="subscribe__option">Блузки</option>
-                            </select>
-                        </div>
-                        <div class="subscribe__select">
-                            <select name="brand" class="subscribe__select">
-                                <option value="Сумки" class="subscribe__option">Бренд</option>
-                                <option value="Сумки" class="subscribe__option">Сумки</option>
-                                <option value="Сумки" class="subscribe__option">Аксессуары</option>
-                                <option value="Сумки" class="subscribe__option">Блузки</option>
-                            </select>
-                        </div>
-                        <div class="subscribe__filter-sizes">Размер одежды <a href="#"> <img src="@/assets/images/size-arrow.svg" alt=""></a></div>
-                        <div class="subscribe__filter-sizes active">Размер обуви<a href="#"> <img src="@/assets/images/size-arrow.svg" alt=""></a></div>
-                    </div>
-                    <div class="subscribe__filter-right">
-                        <div class="subscribe__filter-chooses">
-                            <div class="subscribe__choosed">
-                                <p class="subscribe__choosed-name">Сумки</p>
-                                <a href="#" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></a>
-                            </div>
-                            <div class="subscribe__choosed">
-                                <p class="subscribe__choosed-name">Аксессуары</p>
-                                <a href="#" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></a>
-                            </div>
-                            <div class="subscribe__choosed">
-                                <p class="subscribe__choosed-name">Блузки</p>
-                                <a href="#" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></a>
-                            </div>
-                        </div>
-                            <div class="subscribe__email-check">
-                                <input class="subscribe__email-checkbox" type="checkbox" name="" id="notice">
-                                <label for="notice">Отправлять уведомления на почту</label>
-                            </div>
-                    </div>
-                </div>
-                <div class="subscribe__cards cards">
-                    <div class="card sales-card">
-                    <div class="card-img">
-                        <img src="@/assets/images/product.svg" alt="" />
-                        <div class="card-sign">Отличное</div>
-                        <div class="card-actions">
-                        <a href="" class="card-actions-left">В корзину</a>
-                        <div class="card-actions-right">
-                            <a href="#" class="card-actions-icon">
-                            <img src="@/assets/images/eye.svg" alt="" />
-                            </a>
-                            <a href="#" class="card-actions-icon">
-                            <img src="@/assets/images/like.svg" alt="" />
-                            </a>
-                        </div>
-                        </div>
-                    </div>
+  <div class="cabinet__body">
+    <div class="subscribe">
+      <h1 class="subscribe__title">Новые поступления товаров ваших размеров:</h1>
+      <div class="subscribe__email-check">
+        <input class="subscribe__email-checkbox" type="checkbox" name="" v-model="subscribed">
+        <label>Отправлять уведомления на почту</label>
+      </div>
 
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                        <div class="card-newprice">1500 руб</div>
-                        <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-                    <div class="card sales-card">
-                    <div class="card-img">
-                        <img src="@/assets/images/product.svg" alt="" />
-                        <div class="card-sign">Неношеное</div>
-                        <div class="card-actions active">
-                        <a href="" class="card-actions-left">В корзину</a>
-                        <div class="card-actions-right">
-                            <a href="#" class="card-actions-icon">
-                            <img src="@/assets/images/eye.svg" alt="" />
-                            </a>
-                            <a href="#" class="card-actions-icon">
-                            <img src="@/assets/images/like.svg" alt="" />
-                            </a>
-                        </div>
-                        </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                        <div class="card-newprice">1500 руб</div>
-                        <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-
-                    <div class="card sales-card">
-                    <div class="card-img">
-                        <img src="@/assets/images/product.svg" alt="" />
-                        <div class="card-sign">Неношеное</div>
-                        <div class="card-actions">
-                        <a href="" class="card-actions-left">В корзину</a>
-                        <div class="card-actions-right">
-                            <a href="#" class="card-actions-icon">
-                            <img src="@/assets/images/eye.svg" alt="" />
-                            </a>
-                            <a href="#" class="card-actions-icon">
-                            <img src="@/assets/images/like.svg" alt="" />
-                            </a>
-                        </div>
-                        </div>
-                    </div>
-
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                        <div class="card-newprice">1500 руб</div>
-                        <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-
-                </div>
-                <div class="subscribe__email-check subscribe__email-check--mob">
-                    <input class="subscribe__email-checkbox" type="checkbox" name="" id="notice">
-                    <label for="notice">Отправлять уведомления на почту</label>
-                </div>
-            </div>
+      <h2>Настройте подписку:</h2>
+      <div class="subscribe__filter">
+        <div class="subscribe__filter-left">
+          <div class="subscribe__select">
+            <select name="category" v-model="sex">
+              <option value="" class="subscribe__option">Для всех</option>
+              <option value="f" class="subscribe__option">Для нее</option>
+              <option value="m" class="subscribe__option">Для него</option>
+            </select>
+          </div>
+          <div class="main-btn" @click="showModal='cats'">Категории + </div>
+          <div class="main-btn" v-if="attributes" v-for="attr in attributes"  @click="showModal=attr">{{ attr.frontName }} </div>
         </div>
-        <!-- Мобильный Личный Кабинет -> Подписка на товары-->
-        <div class="mob-subscribe mob-cabinet__body ">
-            <h1 class="mob-cabinet__title">Личный кабинет</h1>
-            <div class="mob-cabinet__tabs">
-                <a href="#" class="mob-cabinet__tab active" @click.prevent="$emit('close')">Подписка на товары</a>
-                </div>
-                <div class="subscribe">
-                <h1 class="subscribe__title">Новые поступления товаров ваших размеров:</h1>
-                <div class="subscribe__filter">
-                    <div class="subscribe__filter-left">
-                    <div class="subscribe__select">
-                        <select name="category">
-                        <option value="Сумки" class="subscribe__option">Категория</option>
-                        <option value="Сумки" class="subscribe__option">Сумки</option>
-                        <option value="Сумки" class="subscribe__option">Аксессуары</option>
-                        <option value="Сумки" class="subscribe__option">Блузки</option>
-                        </select>
-                    </div>
-                    <div class="subscribe__select">
-                        <select name="brand" class="subscribe__select">
-                        <option value="Сумки" class="subscribe__option">Бренд</option>
-                        <option value="Сумки" class="subscribe__option">Сумки</option>
-                        <option value="Сумки" class="subscribe__option">Аксессуары</option>
-                        <option value="Сумки" class="subscribe__option">Блузки</option>
-                        </select>
-                    </div>
-                    <div class="subscribe__filter-sizes">Размер одежды <a href="#"> <img src="@/assets/images/size-arrow.svg" alt=""></a></div>
-                    <div class="subscribe__filter-sizes active">Размер обуви<a href="#"> <img src="@/assets/images/size-arrow.svg" alt=""></a></div>
-                    </div>
-                    <div class="subscribe__filter-right">
-                    <div class="subscribe__filter-chooses">
-                        <div class="subscribe__choosed">
-                        <p class="subscribe__choosed-name">Сумки</p>
-                        <a href="#" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></a>
-                        </div>
-                        <div class="subscribe__choosed">
-                        <p class="subscribe__choosed-name">Аксессуары</p>
-                        <a href="#" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></a>
-                        </div>
-                        <div class="subscribe__choosed">
-                        <p class="subscribe__choosed-name">Блузки</p>
-                        <a href="#" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></a>
-                        </div>
-                    </div>
-                        <div class="subscribe__email-check">
-                        <input class="subscribe__email-checkbox" type="checkbox" name="" id="notice">
-                        <label for="notice">Отправлять уведомления на почту</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="subscribe__cards cards">
-                    <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign">Отличное</div>
-                    <div class="card-actions">
-                        <a href="" class="card-actions-left">В корзину</a>
-                        <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon">
-                        <img src="@/assets/images/eye.svg" alt="" />
-                        </a>
-                        <a href="#" class="card-actions-icon">
-                        <img src="@/assets/images/like.svg" alt="" />
-                        </a>
-                        </div>
-                    </div>
-                    </div>
-
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-                    <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign">Неношеное</div>
-                    <div class="card-actions active">
-                        <a href="" class="card-actions-left">В корзину</a>
-                        <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon">
-                        <img src="@/assets/images/eye.svg" alt="" />
-                        </a>
-                        <a href="#" class="card-actions-icon">
-                        <img src="@/assets/images/like.svg" alt="" />
-                        </a>
-                        </div>
-                    </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-
-                    <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign">Неношеное</div>
-                    <div class="card-actions">
-                        <a href="" class="card-actions-left">В корзину</a>
-                        <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon">
-                        <img src="@/assets/images/eye.svg" alt="" />
-                        </a>
-                        <a href="#" class="card-actions-icon">
-                        <img src="@/assets/images/like.svg" alt="" />
-                        </a>
-                        </div>
-                    </div>
-                    </div>
-
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-
-                    </div>
-                    <div class="subscribe__email-check subscribe__email-check--mob">
-                    <input class="subscribe__email-checkbox" type="checkbox" name="" id="notice">
-                    <label for="notice">Отправлять уведомления на почту</label>
-                </div>
+        <div class="subscribe__filter-right">
+          <div class="subscribe__filter-chooses" v-if="subscr">
+            <div class="subscribe__choosed" v-if="sex">
+              <p class="subscribe__choosed-name">{{ sex==='f'?'Для нее':sex==='m'?'Для него':'Для всех' }}</p>
+              <div @click="sex=''" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></div>
             </div>
+            <div class="subscribe__choosed" v-if="categories.length && categoriesTree" v-for="(catId,i) in categories">
+              <p class="subscribe__choosed-name" v-if="categoriesTree.find(el=>el.id===catId)">{{ categoriesTree.find(el=>el.id===catId).name }}</p>
+              <div @click="categories.splice(i,1)" class="subscrive__choosed-close" v-if="categoriesTree.find(el=>el.id===catId)"><img src="@/assets/images/close-cat.svg" alt=""></div>
+            </div>
+            <div class="subscribe__choosed" v-if="actualFilters.length" v-for="(val,i) in actualFilters">
+              <p class="subscribe__choosed-name">{{val.value}}</p>
+              <div @click="actualFilters.splice(i,1)" class="subscrive__choosed-close"><img src="@/assets/images/close-cat.svg" alt=""></div>
+            </div>
+          </div>
         </div>
+      </div>
+
+
+      <a class="content__save btn" style="margin-top: 20px; max-width: 300px" @click="saveIt()">Сохранить</a>
+      <div class="subscribe__cards cards">
+        <div class="card sales-card">
+          <div class="card-img">
+            <img src="@/assets/images/product.svg" alt="" />
+            <div class="card-sign">Отличное</div>
+            <div class="card-actions">
+              <a href="" class="card-actions-left">В корзину</a>
+              <div class="card-actions-right">
+                <a href="#" class="card-actions-icon">
+                  <img src="@/assets/images/eye.svg" alt="" />
+                </a>
+                <a href="#" class="card-actions-icon">
+                  <img src="@/assets/images/like.svg" alt="" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-name">Мужская рубашка Mustang</p>
+          <div class="card-prices">
+            <div class="card-newprice">1500 руб</div>
+            <div class="card-oldprice">4500 руб</div>
+          </div>
+        </div>
+        <div class="card sales-card">
+          <div class="card-img">
+            <img src="@/assets/images/product.svg" alt="" />
+            <div class="card-sign">Неношеное</div>
+            <div class="card-actions active">
+              <a href="" class="card-actions-left">В корзину</a>
+              <div class="card-actions-right">
+                <a href="#" class="card-actions-icon">
+                  <img src="@/assets/images/eye.svg" alt="" />
+                </a>
+                <a href="#" class="card-actions-icon">
+                  <img src="@/assets/images/like.svg" alt="" />
+                </a>
+              </div>
+            </div>
+          </div>
+          <p class="card-name">Мужская рубашка Mustang</p>
+          <div class="card-prices">
+            <div class="card-newprice">1500 руб</div>
+            <div class="card-oldprice">4500 руб</div>
+          </div>
+        </div>
+
+        <div class="card sales-card">
+          <div class="card-img">
+            <img src="@/assets/images/product.svg" alt="" />
+            <div class="card-sign">Неношеное</div>
+            <div class="card-actions">
+              <a href="" class="card-actions-left">В корзину</a>
+              <div class="card-actions-right">
+                <a href="#" class="card-actions-icon">
+                  <img src="@/assets/images/eye.svg" alt="" />
+                </a>
+                <a href="#" class="card-actions-icon">
+                  <img src="@/assets/images/like.svg" alt="" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-name">Мужская рубашка Mustang</p>
+          <div class="card-prices">
+            <div class="card-newprice">1500 руб</div>
+            <div class="card-oldprice">4500 руб</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="subscribe__email-check subscribe__email-check--mob">
+        <input class="subscribe__email-checkbox" type="checkbox" name="" id="notice">
+        <label for="notice">Отправлять уведомления на почту</label>
+      </div>
+
+
+<!--      //modal wind-->
+      <div class="photo-edit shadowed" v-if="showModal" v-click-outside="()=>showModal=null">
+        <div class="photo-edit__window" v-if="showModal==='cats'">
+          <div class="photo-edit__title">Добавить категорию</div>
+          <div class="cats_select_list">
+            <div class="cat_select" v-if="categoriesTree.length" v-for="cat in categoriesTree" :key="cat.id">
+              <div v-if="cat.parent === 0">
+                <input type="checkbox" class="edit-property__checkbox-input"
+                       :checked="categories.indexOf(cat.id)>-1" @click="catSelect(cat.id)">
+                <label>{{cat.name}}</label>
+                <div v-for="subCat in categoriesTree" :key="subCat.id" class="subCats">
+                  <input v-if="subCat.parent === cat.id" type="checkbox" class="edit-property__checkbox-input"
+                         :checked="categories.indexOf(subCat.id)>-1"
+                         @click="catSelect(subCat.id)">
+                  <label v-if="subCat.parent === cat.id">{{subCat.name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="photo-edit__btn btn" @click="showModal = null">Ок</button>
+          <div class="close_window" @click="showModal = null">Закрыть</div>
+        </div>
+
+        <div class="photo-edit__window" v-if="showModal!=='cats'">
+          <div class="photo-edit__title">Добавить значение:</div>
+          <div class="cats_select_list">
+            <div class="cat_select" v-if="showModal.values" v-for="val in showModal.values" :key="val.attributeValueId">
+              <input type="checkbox" class="edit-property__checkbox-input"
+                     :checked="actualFilters.find(el=>el.value===val.value)"
+                     @click="actualFilters.find(el=>el.value===val.value)?actualFilters.splice(actualFilters.indexOf(el=>el.value===val.value),1):actualFilters.push(val)">
+              <label>{{val.value}}</label>
+            </div>
+          </div>
+          <button class="photo-edit__btn btn" @click="showModal = null">Ок</button>
+          <div class="close_window" @click="showModal = null">Закрыть</div>
+        </div>
+      </div>
+
     </div>
+  </div>
 </template>
 
 <script>
+import api from "@/api";
+import {useShopStore} from "@/store/shop";
+import {useSessionStore} from "@/store/session";
 export default {
+  data(){
+    return{
+      showModal:null,
 
+      sex:'',
+      categories:[],
+      subscribed:false,
+      actualFilters:[],
+
+      products:[],
+    }
+  },
+  computed:{
+    colors(){return useShopStore().colors},
+    attributes(){return useShopStore().attributes},
+    categoriesTree(){return useShopStore().categoriesTree},
+    subscr(){
+      let data = false
+      if(useSessionStore().user_info.subscription.length>2)
+        data = JSON.parse(useSessionStore().user_info.subscription)
+      if(data){
+        this.sex=data.sex?data.sex:''
+        this.categories=data.categories?JSON.parse(data.categories):[]
+        this.subscribed=data.subscribed?data.subscribed:false
+        this.actualFilters=data.attributes.length?JSON.parse(data.attributes):[]
+      }
+    return data //!==null
+    }
+  },
+  created() {
+    api.getAllAttributes()
+    api.getAllColors()
+    api.getAllCategories()
+  },
+  methods:{
+    catSelect(id){
+      if (this.categoriesTree.find(el => el.id===id).parent === 0){
+        if (this.categories.indexOf(id) ===-1){
+          this.categories.push(id)
+          for (let cat of this.categoriesTree)
+            if (cat.parent === id) this.categories.push(cat.id)
+        } else{
+          this.categories.splice(this.categories.indexOf(id),1)
+          for (let cat of this.categoriesTree)
+            if (cat.parent === id) this.categories.splice(this.categories.indexOf(cat.id),1)
+        }
+      } else{
+        if (this.categories.indexOf(id) ===-1) this.categories.push(id);
+        else this.categories.splice(this.categories.indexOf(id),1)
+      }
+    },
+    saveIt(){
+      let data={
+        sex:this.sex,
+        categories:JSON.stringify(this.categories),
+        subscribed: this.subscribed,
+        attributes: JSON.stringify(this.actualFilters, )
+      }
+
+      useSessionStore().user_info['subscription']=JSON.stringify(data)
+      api.putRequest('auth/subscribes',data)
+      let attrs = []
+      for ( let a of this.actualFilters)
+        if (a.attributeValueId !=null) attrs.push(a.attributeValueId)
+      api.searchTwentyFive('',this.sex, JSON.stringify(attrs),data.categories, null,null,null,null,)
+    }
+  }
 }
 </script>
 
-<style>
+<style scoped>
+.cats_select_list{
+  position: relative;
+  overflow-y: auto;
+  height: 50vh;
+  width: 100%;
+}
+.edit-property__checkbox-input{
+  height: 21px;
+}
+.subCats{margin-left: 20px}
 
+.main-btn{
+  width: 200px;
+  border: 1px solid #000000;
+  padding: 15px 19px;
+}
+.inpt{
+  font-size: 13px;
+}
 </style>

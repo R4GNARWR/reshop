@@ -5,32 +5,30 @@
           <div class="footer__left">
             <div class="footer__links">
               <router-link :to="`/category/shoes`" class="footer__link">Обувь</router-link>
-              <a href="#" class="footer__link">Сумки</a>
-              <a href="#" class="footer__link">Верхняя одежда</a>
-              <a href="#" class="footer__link">Аксессуары</a>
-              <a href="#" class="footer__link">Ювелирные изделия</a>
-              <a href="#" class="footer__link">Премиум</a>
-              <a href="#" class="footer__link">Спорт</a>
+              <router-link :to="`/category/${category.id}`" class="footer__link"
+                           v-for="category in parentsCatIds" :key="category.id">
+                {{ category.name }}
+              </router-link>
+
+
             </div>
             <div class="footer__links">
               <div class="footer__links-title">Покупателям</div>
-              <a href="#" class="footer__link">SALE</a>
-              <a href="#" class="footer__link">Сумки</a>
-              <a href="#" class="footer__link">Как это работает</a>
-              <a href="#" class="footer__link">Аренда одежды</a>
-              <a href="#" class="footer__link">Доставка и оплата</a>
+              <router-link to="/howItWorks" class="footer__link">Как это работает</router-link>
+<!--              <a href="#" class="footer__link">Аренда одежды</a>-->
+              <router-link to="/delivery" class="footer__link">Доставка и оплата</router-link>
             </div>
             <div class="footer__links">
               <div class="footer__links-title">Продавцам</div>
-              <a href="#" class="footer__link">Как это работает</a>
-              <a href="#" class="footer__link">Как сдать одежду</a>
+              <router-link to="/howItWorks" class="footer__link">Как это работает</router-link>
+              <router-link to="/howToDonate" class="footer__link">Как сдать одежду</router-link>
 
-              <div class="footer__links-title footer__links-title--second">
-                О компании
-              </div>
-              <a href="#" class="footer__link">Вакансии</a>
+              <router-link to="/about" class="footer__links-title footer__links-title--second">О компании</router-link>
+              <div @click="msg('Попросите анкету у продавца в шоурумах')" class="footer__link">Вакансии</div>
             </div>
           </div>
+
+
           <div class="footer-mob__links active">
             <div class="footer-mob__title">Покупателям</div>
             <a href="#" class="footer-mob__link">SALE</a>
@@ -41,19 +39,20 @@
           </div>
           <div class="footer-mob__links">
             <div class="footer-mob__title">Продавцам</div>
-            <a href="#" class="footer-mob__link">Как это работает</a>
+            <router-link to="/howItWorks" class="footer-mob__link">Как это работает</router-link>
             <a href="#" class="footer-mob__link">Как сдать одежду</a>
           </div>
           <div class="footer-mob__links">
-            <div class="footer-mob__title">О компании</div>
-            <a href="#" class="footer-mob__link">Вакансии</a>
+            <router-link to="/about" class="footer-mob__title">О компании</router-link>
+            <div @click="useSessionStore.showMsg('У нас пока нет вакансий')" class="footer-mob__link">Вакансии</div>
           </div>
           <div class="footer__right">
             <div class="footer__top">
               <div class="footer__subtitle">По всем вопросам:</div>
-              <a href="tel:8 (987) 654-23-10" class="footer__phone"
-                >8 (987) 654-23-10</a
-              >
+<!--              <a href="tel:8 (987) 654-23-10" class="footer__phone"-->
+<!--                >8 (987) 654-23-10</a-->
+<!--              >-->
+              <a :href="'tel:'+headerStore.MainPhone" class="footer__phone">{{ headerStore.MainPhone }}</a>
               <div class="footer__socials">
                 <a class="footer__social-link">
                   <svg
@@ -71,7 +70,10 @@
                     />
                   </svg>
                 </a>
-                <a class="footer__social-link">
+                <a class="footer__social-link"
+                   href="https://wa.me/79876203930"
+                   target="_blank"
+                >
                   <svg
                     width="32"
                     height="32"
@@ -148,7 +150,41 @@
 </template>
 
 <script>
+import {useSessionStore} from "@/store/session";
+import {useShopStore} from "@/store/shop";
 export default {
+  components:{useSessionStore},
   name: 'TheFooter',
+  // data(){return{forWho:null}},
+  methods:{
+    msg(txt){return useSessionStore().showMsg(txt)}
+  },
+  computed:{
+    parentsCatIds(){
+      let result = []
+      for (let cat of useShopStore().categoriesTree){
+        if (cat.parent===0) result.push(cat)
+      }
+      for (let pcat of result){
+        pcat.cats=[]
+        for (let cat of useShopStore().categoriesTree)
+          if (cat.parent === pcat.id  ) pcat.cats.push(cat)
+      }
+      return result
+    },
+    headerStore(){
+      let sessionStore= useSessionStore()
+      return{
+        MainPhone: sessionStore.settings.find(el=>el.setting_type==="MainPhone")?
+          sessionStore.settings.find(el=>el.setting_type==="MainPhone").setting_json.replace(/["']/g, ""):"",
+        Logo: sessionStore.settings.find(el=>el.setting_type==="logo")?
+          sessionStore.settings.find(el=>el.setting_type==="logo").setting_json.replace(/["']/g, ""):"",
+        shopName: sessionStore.settings.find(el=>el.setting_type==="shopName")?
+          sessionStore.settings.find(el=>el.setting_type==="shopName").setting_json.replace(/["']/g, ""):"",
+        favorites:sessionStore.favorites
+      }
+    },
+
+  }
 }
 </script>
