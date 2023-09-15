@@ -1,5 +1,4 @@
 <template>
-    <main>
       <section class="info">
         <div class="container">
           <div class="info--sm">
@@ -33,7 +32,6 @@
           </div>
         </div>
       </section>
-    </main>
 </template>
 
 <script>

@@ -84,30 +84,13 @@
                 </div>
                 <h2 class="cabinet__body-title">Данные пользователя</h2>
                 <div class="cabinet__form-field">
-                <label for="secondName">Фамилия</label>
-                <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="second name"
-                    id="secondName"
-                />
-                </div>
-                <div class="cabinet__form-field">
-                <label for="name">Имя</label>
+                <label for="name">ФИО</label>
                 <input
                     class="cabinet__form-input"
                     type="text"
                     name="name"
                     id="name"
-                />
-                </div>
-                <div class="cabinet__form-field">
-                <label for="fathersName">Отчество</label>
-                <input
-                    class="cabinet__form-input"
-                    type="text"
-                    name="Fathers name"
-                    id="fathersName"
+                    v-model="user.name"
                 />
                 </div>
                 <div class="cabinet__form-field">
@@ -117,6 +100,7 @@
                     type="text"
                     name="email"
                     id="email"
+                    v-model="user.email"
                 />
                 </div>
                 <div class="cabinet__form-field">
@@ -126,6 +110,7 @@
                     type="text"
                     name="phone"
                     id="phone"
+                    v-model="user.phone"
                 />
                 </div>
                 <div class="cabinet__form-field">
@@ -135,6 +120,7 @@
                     type="text"
                     name="address"
                     id="address"
+                    v-model="user.address"
                 />
                 </div>
             </form>
@@ -155,7 +141,7 @@ export default {
   data(){return {
     errors:""
     }},
-  computed:{
+    computed:{
     user(){return useSessionStore().user_info}
   },
   methods:{

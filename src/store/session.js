@@ -75,15 +75,18 @@ export const useSessionStore = defineStore('session', {
       //   this.cart.push(p.productId)
     },
     toCart(id){
-      if (!this.cart.find(el=>el.id === id)) {
-        API.put_to_cart(id).then(value => {
-          if (value.data.success) {
-            this.cart.push(useShopStore().products[id])
-            this.showMsg("Товар добавлен в корзину!")
-          }
-        })
+      if(id) {
+        if (!this.cart.find(el=>el.id === id)) {
+          API.put_to_cart(id).then(value => {
+            if (value.data.success) {
+              this.cart.push(useShopStore().products[id])
+              this.showMsg("Товар добавлен в корзину!")
+            }
+          })
+  
+        }
+      } else (console.log('Не найден ID'))
 
-      }
     },
     delFromCart(id){
       this.cart.splice(this.cart.findIndex(el=>el.id === id),1)

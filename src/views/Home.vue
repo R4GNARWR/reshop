@@ -1,5 +1,4 @@
 <template>
-  <main>
     <Banner />
     <Recommends />
     <Benetifts />
@@ -8,7 +7,6 @@
     <Catalog/>
 <!--    <Reviews />-->
     <Contacts />
-  </main>
 </template>
 
 <script setup>

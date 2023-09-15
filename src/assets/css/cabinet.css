@@ -213,6 +213,12 @@
   flex-wrap: wrap;
   max-width: 640px;
 }
+.award__form div
+{
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
 
 .award__form-input {
   width: 314px;

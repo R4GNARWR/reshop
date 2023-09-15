@@ -1,11 +1,9 @@
 <template>
-    <main>
       <section class="info">
         <div class="container">
           <div v-html="content"></div>
         </div>
       </section>
-    </main>
 </template>
 
 <script>

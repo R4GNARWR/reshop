@@ -41,75 +41,7 @@
 
       <a class="content__save btn" style="margin-top: 20px; max-width: 300px" @click="saveIt()">Сохранить</a>
       <div class="subscribe__cards cards">
-        <div class="card sales-card">
-          <div class="card-img">
-            <img src="@/assets/images/product.svg" alt="" />
-            <div class="card-sign">Отличное</div>
-            <div class="card-actions">
-              <a href="" class="card-actions-left">В корзину</a>
-              <div class="card-actions-right">
-                <a href="#" class="card-actions-icon">
-                  <img src="@/assets/images/eye.svg" alt="" />
-                </a>
-                <a href="#" class="card-actions-icon">
-                  <img src="@/assets/images/like.svg" alt="" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <p class="card-name">Мужская рубашка Mustang</p>
-          <div class="card-prices">
-            <div class="card-newprice">1500 руб</div>
-            <div class="card-oldprice">4500 руб</div>
-          </div>
-        </div>
-        <div class="card sales-card">
-          <div class="card-img">
-            <img src="@/assets/images/product.svg" alt="" />
-            <div class="card-sign">Неношеное</div>
-            <div class="card-actions active">
-              <a href="" class="card-actions-left">В корзину</a>
-              <div class="card-actions-right">
-                <a href="#" class="card-actions-icon">
-                  <img src="@/assets/images/eye.svg" alt="" />
-                </a>
-                <a href="#" class="card-actions-icon">
-                  <img src="@/assets/images/like.svg" alt="" />
-                </a>
-              </div>
-            </div>
-          </div>
-          <p class="card-name">Мужская рубашка Mustang</p>
-          <div class="card-prices">
-            <div class="card-newprice">1500 руб</div>
-            <div class="card-oldprice">4500 руб</div>
-          </div>
-        </div>
-
-        <div class="card sales-card">
-          <div class="card-img">
-            <img src="@/assets/images/product.svg" alt="" />
-            <div class="card-sign">Неношеное</div>
-            <div class="card-actions">
-              <a href="" class="card-actions-left">В корзину</a>
-              <div class="card-actions-right">
-                <a href="#" class="card-actions-icon">
-                  <img src="@/assets/images/eye.svg" alt="" />
-                </a>
-                <a href="#" class="card-actions-icon">
-                  <img src="@/assets/images/like.svg" alt="" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <p class="card-name">Мужская рубашка Mustang</p>
-          <div class="card-prices">
-            <div class="card-newprice">1500 руб</div>
-            <div class="card-oldprice">4500 руб</div>
-          </div>
-        </div>
+        <CardSub v-for="product of products.slice(0, 15)" :card-data="product._id" :key="product._id"/>
 
       </div>
 
@@ -127,12 +59,14 @@
             <div class="cat_select" v-if="categoriesTree.length" v-for="cat in categoriesTree" :key="cat.id">
               <div v-if="cat.parent === 0">
                 <input type="checkbox" class="edit-property__checkbox-input"
-                       :checked="categories.indexOf(cat.id)>-1" @click="catSelect(cat.id)">
+                       :checked="categories.indexOf(cat.id)>-1" @change="filteringProducts" @click="catSelect(cat.id)">
                 <label>{{cat.name}}</label>
                 <div v-for="subCat in categoriesTree" :key="subCat.id" class="subCats">
                   <input v-if="subCat.parent === cat.id" type="checkbox" class="edit-property__checkbox-input"
                          :checked="categories.indexOf(subCat.id)>-1"
-                         @click="catSelect(subCat.id)">
+                         @click="catSelect(subCat.id)"
+                         @change="filteringProducts">
+
                   <label v-if="subCat.parent === cat.id">{{subCat.name}}</label>
                 </div>
               </div>
@@ -165,7 +99,11 @@
 import api from "@/api";
 import {useShopStore} from "@/store/shop";
 import {useSessionStore} from "@/store/session";
+import CardSub from "@/components/CardSub";
 export default {
+  components: {
+    CardSub
+  },
   data(){
     return{
       showModal:null,
@@ -173,18 +111,21 @@ export default {
       sex:'',
       categories:[],
       subscribed:false,
-      actualFilters:[],
-
       products:[],
+      filteredProducts:[],
+      actualFilters : '',
+      dataFilters : [],
+      testProducts: [],
     }
   },
   computed:{
-    colors(){return useShopStore().colors},
+    // colors(){return useShopStore().colors},
+
     attributes(){return useShopStore().attributes},
     categoriesTree(){return useShopStore().categoriesTree},
     subscr(){
       let data = false
-      if(useSessionStore().user_info.subscription.length>2)
+      if(useSessionStore().user_info && useSessionStore().user_info.subscription && useSessionStore().user_info.subscription.length>2)
         data = JSON.parse(useSessionStore().user_info.subscription)
       if(data){
         this.sex=data.sex?data.sex:''
@@ -192,13 +133,19 @@ export default {
         this.subscribed=data.subscribed?data.subscribed:false
         this.actualFilters=data.attributes.length?JSON.parse(data.attributes):[]
       }
+
     return data //!==null
     }
   },
+  mounted () {
+      this.saveIt()
+      },
   created() {
     api.getAllAttributes()
-    api.getAllColors()
+    // api.getAllColors()
     api.getAllCategories()
+
+    
   },
   methods:{
     catSelect(id){
@@ -216,21 +163,25 @@ export default {
         if (this.categories.indexOf(id) ===-1) this.categories.push(id);
         else this.categories.splice(this.categories.indexOf(id),1)
       }
+
     },
     saveIt(){
       let data={
         sex:this.sex,
         categories:JSON.stringify(this.categories),
         subscribed: this.subscribed,
-        attributes: JSON.stringify(this.actualFilters, )
+        attributes: JSON.stringify(this.actualFilters, ),
       }
-
       useSessionStore().user_info['subscription']=JSON.stringify(data)
       api.putRequest('auth/subscribes',data)
       let attrs = []
       for ( let a of this.actualFilters)
         if (a.attributeValueId !=null) attrs.push(a.attributeValueId)
-      api.searchTwentyFive('',this.sex, JSON.stringify(attrs),data.categories, null,null,null,null,)
+         api.searchTwentyFive('',this.sex, JSON.stringify(attrs),data.categories, null,null,null,null,).then(value => {
+          this.products = value.data.products.hits.hits;
+        }).catch(error => {
+          console.error(error)
+        })
     }
   }
 }

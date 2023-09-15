@@ -1,5 +1,4 @@
 <template>
-    <main>
       <section class="catalog" v-if="cats">
         <div class="container">
           <div class="catalog__tabs">
@@ -40,7 +39,6 @@
           </div>
         </div>
       </section>
-    </main>
 </template>
 
 <script>

@@ -149,6 +149,7 @@ export default  {
     //PRODUCT
     saveProductPhoto(img) {return this.axios.post("admin/photos",img,{params:{type:"product"}})},
     getProductById(id){return this.axios.get('products/'+id) },
+    getAllProduct(){return this.axios.get('products') },
     createNewProduct(product){return this.axios.post("admin/create-product", product)},
     fastProductUpdate(product, status){this.axios.post("admin/fast-update-product",{id:product.id, price:product.price, priority:product.priority, active:status?status:product.active})},
 
@@ -257,6 +258,7 @@ export default  {
         return value;})},
 
   searchTwentyFive(q,sex, attrs, cats,cat_id,price_min,price_max,page){
+    const store = useSessionStore()
     let key={
       query:q,
       sex:sex,
@@ -269,7 +271,7 @@ export default  {
     }
     return this.axios.get('search',{params:key})
       .then(value => {
-        // store.setSearchResult(JSON.stringify(key), value)
+          store.setSearchResult(JSON.stringify(key), value)
         return value;})
   },
   // searchProducts(query,attr, cat, page){return this.axios.get('products',{params:{query:query, attr:attr, categoryId:cat, per_page: 99, page:page}}).then(value => {return value;})},

@@ -229,7 +229,7 @@ body {
   gap: 26px;
 }
 
-.burger {
+.admin-header .burger {
   display: block;
   width: 28px;
   height: 17px;
@@ -942,7 +942,7 @@ body {
 
 .photo-edit {
   position: fixed;
-  top: 50%;
+  top: calc(50% + 100px);
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.259);

@@ -29,7 +29,7 @@
           </div>
 
 
-          <div class="footer-mob__links active">
+          <div class="footer-mob__links" @click.stop="e =>  e.target.parentNode.classList.toggle('active')">
             <div class="footer-mob__title">Покупателям</div>
             <a href="#" class="footer-mob__link">SALE</a>
             <a href="#" class="footer-mob__link">Сумки</a>
@@ -37,13 +37,14 @@
             <a href="#" class="footer-mob__link">Аренда одежды</a>
             <a href="#" class="footer-mob__link">Доставка и оплата</a>
           </div>
-          <div class="footer-mob__links">
+          <div class="footer-mob__links" @click.stop="e =>  e.target.parentNode.classList.toggle('active')">
             <div class="footer-mob__title">Продавцам</div>
             <router-link to="/howItWorks" class="footer-mob__link">Как это работает</router-link>
             <a href="#" class="footer-mob__link">Как сдать одежду</a>
           </div>
-          <div class="footer-mob__links">
-            <router-link to="/about" class="footer-mob__title">О компании</router-link>
+          <div class="footer-mob__links" @click.stop="e =>  e.target.parentNode.classList.toggle('active')">
+            <div class="footer-mob__title">О Компании</div>
+            <router-link to="/about" class="footer-mob__link">Инфорамация</router-link>
             <div @click="useSessionStore.showMsg('У нас пока нет вакансий')" class="footer-mob__link">Вакансии</div>
           </div>
           <div class="footer__right">
@@ -130,21 +131,6 @@
           ReShop - Селективный комиссионный магазин трендовой одежды. Все права
           защищены
         </p>
-      </div>
-
-      <div class="footer__actions">
-        <a class="footer__actions-icon">
-          <img src="@/assets/images/search.svg" alt="" />
-        </a>
-        <a class="footer__actions-icon">
-          <img src="@/assets/images/like-footer.svg" alt="" />
-        </a>
-        <a class="footer__actions-icon">
-          <img src="@/assets/images/cart-footer.svg" alt="" />
-        </a>
-        <a class="footer__actions-icon">
-          <img src="@/assets/images/user.svg" alt="" />
-        </a>
       </div>
     </footer>
 </template>

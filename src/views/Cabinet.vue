@@ -6,14 +6,14 @@
                 <div class="cabinet">
                     <aside class="cabinet__menu">
                         <div class="cabinet__tabs">
-                        <a href="#userData" class="cabinet__tab" :class="{'active': currentTab === 'userData'}" @click="currentTab = 'userData'">Данные пользователя</a>
-                        <a href="#payment" class="cabinet__tab" :class="{'active': currentTab === 'payment'}" @click="currentTab = 'payment'">Платежные данные</a>
-                        <a href="#subscriptions" class="cabinet__tab" :class="{'active': currentTab === 'subscriptions'}" @click="currentTab = 'subscriptions'">Подписка на товары</a>
-                        <a href="#sales" class="cabinet__tab" :class="{'active': currentTab === 'sales'}" @click="currentTab = 'sales'">Продажи</a>
-                        <a href="#purchases" class="cabinet__tab" :class="{'active': currentTab === 'purchases'}" @click="currentTab = 'purchases'">Покупки</a>
-                        <a href="#favorites" class="cabinet__tab" :class="{'active': currentTab === 'favorites'}" @click="currentTab = 'favorites'">Избранное</a>
-                        <a href="#messages" class="cabinet__tab" :class="{'active': currentTab === 'messages'}" @click="currentTab = 'messages'">Сообщения</a>
-                          <a href="#messages" class="cabinet__tab" @click="logout()">Выйти</a>
+                            <a href="#userData" class="cabinet__tab" :class="{'active': currentTab === 'userData'}" @click="currentTab = 'userData'">Данные пользователя</a>
+                            <a href="#payment" class="cabinet__tab" :class="{'active': currentTab === 'payment'}" @click="currentTab = 'payment'">Платежные данные</a>
+                            <a href="#subscriptions" class="cabinet__tab" :class="{'active': currentTab === 'subscriptions'}" @click="currentTab = 'subscriptions'">Подписка на товары</a>
+                            <a href="#sales" class="cabinet__tab" :class="{'active': currentTab === 'sales'}" @click="currentTab = 'sales'">Продажи</a>
+                            <a href="#purchases" class="cabinet__tab" :class="{'active': currentTab === 'purchases'}" @click="currentTab = 'purchases'">Покупки</a>
+                            <a href="#favorites" class="cabinet__tab" :class="{'active': currentTab === 'favorites'}" @click="currentTab = 'favorites'">Избранное</a>
+                            <a href="#messages" class="cabinet__tab" :class="{'active': currentTab === 'messages'}" @click="currentTab = 'messages'">Сообщения</a>
+                            <a href="#messages" class="cabinet__tab" @click="logout()">Выйти</a>
                         </div>
                     </aside>
                     <div style="width: 100%">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </main>
-
+        
         <!-- Мобильный Личный Кабинет -->
         <div class="mob-cabinet">
             <h1 class="mob-cabinet__title">Личный кабинет</h1>
@@ -66,37 +66,42 @@ import API from "@/api";
 import {useSessionStore} from "@/store/session";
 
 export default {
-  components: { UserData, Payment, Subcriptions, Sales, Purchases, Messages, Favorites },
+    components: { UserData, Payment, Subcriptions, Sales, Purchases, Messages, Favorites },
     name: 'Cabinet',
     data() {
         return {
             currentTab: 'userData',
         }
     },
-  methods:{
-    logout(){
-      API.logout()
-      this.$router.push('/')
+    methods:{
+        logout(){
+            API.logout()
+            this.$router.push('/')
+        }
+    },
+    created() {
+        
+        if(!useSessionStore().user_info.id){
+            this.$router.push('/')
+        } else{
+            API.getRequest("user-data/"+useSessionStore().user_info.id).then(value => {
+            for (let d of value.data) {
+                useSessionStore().user_info[d.type] = JSON.parse(d.json)
+            }
+        })
+        }
+
     }
-  },
-  created() {
-    if(!useSessionStore().user_info.id) router.push("/")
-    else
-    API.getRequest("user-data/"+useSessionStore().user_info.id).then(value => {
-      for (let d of value.data) useSessionStore().user_info[d.type] = JSON.parse(d.json)
-      }
-    )
-  }
 }
 </script>
 
 <style src="@/assets/css/cabinet.css"></style>
 
 <style>
-    .cabinet__main .mob-profile {
-        display: none;
-    }
-    .mob-wrapper .cabinet__body {
-        display: none;
-    }
+.cabinet__main .mob-profile {
+    display: none;
+}
+.mob-wrapper .cabinet__body {
+    display: none;
+}
 </style>

@@ -13,7 +13,7 @@
           v-for="banner of banners" :key="banner.title"
           >
               <div class="banner__slide">
-                <img :src="banner.img" alt="" style="opacity: 0.7;"/>
+                <img :src="banner.img" alt="" />
                 <div class="banner__slide-left">
                   <h1 class="banner__slide-title">{{ banner.title }}</h1>
                   <a :href="banner.buttonLink" class="banner__slide-link"

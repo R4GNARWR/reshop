@@ -1,5 +1,4 @@
 <template>
-    <main>
       <section class="cart" v-if="products.length > 0">
         <div class="container">
           <div class="cart__title">
@@ -281,7 +280,6 @@
           </div>
         </div>
       </div>
-    </main>
 </template>
 
 <script>
@@ -293,7 +291,9 @@ export default {
   name: 'Cart',
   components: {TheHeart},
   data(){return{
-    deliverType:null, paymentsType:null, minutes: 5,
+    deliverType:null,
+    paymentsType:null,
+    minutes: 5,
     seconds: 30
   }},
   methods:{

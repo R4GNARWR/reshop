@@ -10,7 +10,7 @@
         <div>
           <h1 class="main-title contacts__title">Наш магазин в <span>{{ contact.title }}</span></h1>
           <div class="contacts__inner">
-            <div class="contacts__map" style="max-width: 60%">
+            <div class="contacts__map">
               <PhotoChange :photo-array="contact.photos" class="the__img" />
 <!--              <img v-if="contact." src="@/assets/images/slide-img.svg" alt="" />-->
 <!--              <img src="@/assets/images/slide-img.svg" alt="" />-->
@@ -20,7 +20,8 @@
               <p class="contacts__address">
                 {{contact.address}} {{contact.time}}
               </p>
-              <div class="contacts__social">
+              <div class="contacts__social-wrap">
+                <div class="contacts__social">
                 <p class="contacts__social-text">
                   Готовые образы, подобраные стилистом в телеграм-канале:
                 </p>
@@ -68,6 +69,8 @@
                 </svg>
                 </a>
               </div>
+              </div>
+
             </div>
           </div>
         </div>

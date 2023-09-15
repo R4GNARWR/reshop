@@ -1,6 +1,9 @@
 <template>
   <TheHeader/>
-  <router-view />
+  <main>
+    <router-view />
+  </main>
+
   <TheFooter/>
   <Msg v-if="msg"/>
 </template>
