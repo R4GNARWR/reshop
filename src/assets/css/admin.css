@@ -1862,6 +1862,8 @@ body {
 
 .edit__item {
   display: flex;
+  column-gap: 100px;
+  padding: 0 20px;
 }
 
 .edit__item-block {
@@ -1871,8 +1873,22 @@ body {
   border: 1px solid #bababa;
 }
 
+@media (max-width:900px) {
+  .edit
+  {
+    width: 100%;
+  }
+  .edit__item
+  {
+    flex-direction: column;
+  }
+  .edit__item-block {
+    width: 100%;
+    min-width: unset;
+    padding: 20px 32px 29px 32px;
+  }
+}
 .edit__item-title {
-  flex-grow: 1;
   padding-top: 13px;
   font-family: "Museo Sans Cyrl";
   font-style: normal;

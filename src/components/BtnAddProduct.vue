@@ -1,5 +1,5 @@
 <template>
-  <div @click="login?$router.push('EditProduct/0/new'):msg('Сперва необходимо зарегистрироваться )')" class="sales__btn btn btn-r">Предложить товар</div>
+  <a @click="login?$router.push('EditProduct/0/new'):msg('Сперва необходимо зарегистрироваться )')" class="sales__btn btn btn-r">Предложить товар</a>
 </template>
 
 <script>

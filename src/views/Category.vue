@@ -161,8 +161,8 @@
               <CardCategory v-for="product of showedProducts" :cardData="product.id" :key="product.id"/>
               
             </div>
-            <button class="btn" v-if="!loader" @click="changePage(Number(-15))">Назад</button>
-            <button class="btn" v-if="!loader"  @click="changePage(Number(15))">Вперед</button>
+            <button class="btn" v-if="!loader" @click="changePage(Number(-25))">Назад</button>
+            <button class="btn" v-if="!loader"  @click="changePage(Number(25))">Вперед</button>
             <p class="category__products-text" v-if="afterProducts">{{afterProducts}}
             </p>
           </div>
@@ -321,7 +321,7 @@ export default {
     products:[], allProducts:[], showedProducts:[],
     title:"", afterProducts:"", beforeProducts:"",
     filterData:[],colors:[], actualFilters:[], minPrice:null,maxPrice:null,
-    currentProductsValue: 0, nextProductsValue: 15, maxValueOfProducts: 0,
+    currentProductsValue: 0, nextProductsValue: 25, maxValueOfProducts: 0,
     loader:false,
     sortP:false, sortD:false,
     buttonX: 0, buttonY: 120,
@@ -389,7 +389,7 @@ export default {
         },
         sortPrice(){
           this.currentProductsValue = 0;
-          this.nextProductsValue = 15;
+          this.nextProductsValue = 25;
           if (this.sortP === false) this.products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
           else this.products.sort((b, a) => parseFloat(a.price) - parseFloat(b.price));
           this.sortP = !this.sortP
@@ -397,7 +397,7 @@ export default {
         },
         sortDiscount(){
           this.currentProductsValue = 0;
-          this.nextProductsValue = 15;
+          this.nextProductsValue = 25;
           if (this.sortD === false) this.products.sort((a, b) => (a.oldPrice-a.price) - (b.oldPrice-b.price));
           else this.products.sort((b, a) => (a.oldPrice-a.price) - (b.oldPrice-b.price));
           this.sortD = !this.sortD
@@ -448,12 +448,12 @@ export default {
             this.currentProductsValue = this.currentProductsValue;
           }
           
-          if (endValue <= this.maxValueOfProducts  && endValue >= 0 && endValue >= 15) {
+          if (endValue <= this.maxValueOfProducts  && endValue >= 0 && endValue >= 25) {
             this.nextProductsValue += value;
           } else if (endValue > this.maxValueOfProducts) {
             this.nextProductsValue = this.maxValueOfProducts;
-          } else if(endValue < 15){
-            this.nextProductsValue = 15;
+          } else if(endValue < 25){
+            this.nextProductsValue = 25;
           }
           this.showedProducts = this.products.slice(this.currentProductsValue, this.nextProductsValue);
         }

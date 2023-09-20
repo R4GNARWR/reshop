@@ -306,7 +306,6 @@ export default {
     },
     delFrom(id){
       this.sessionStore.delFromCart(id)
-      this.products.splice(this.products.findIndex(el=>el===id),1)
     },
     startTimer() {
       let totalSeconds = this.minutes * 60 + this.seconds;
