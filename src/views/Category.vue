@@ -1,6 +1,6 @@
 <template>
   <section class="category">
-    <div class="container">
+    <div class="container" >
       <div class="category__top">
         <div class="category__top-left">
           <div class="breadcrumb">
@@ -90,7 +90,7 @@
                   <!--                />-->
                   <fieldset class="filter__form-fieldset">
                     <div class="filter__form-check" v-for="(arr,k) of value" :key="k" >
-  
+                      
                       <input
                       type="checkbox"
                       class="filter__form-checkbox"
@@ -132,7 +132,7 @@
         </aside>
         
         
-        <div class="category__products">
+        <div class="category__products" ref="cardsDiv">
           <div class="category__sort">
             <p class="category__sort-text">Сортировать по:</p>
             <a href="#" class="category__sort-link" @click="sortPrice">Цене</a>
@@ -156,13 +156,10 @@
               
             </div>
             <p class="category__products-text" v-if="beforeProducts">{{beforeProducts}}</p>
-            <div class="category__products-cards cards" v-if="products && products.length > 0">
+            <div class="category__products-cards cards" v-if="products && products.length > 0" >
               
               <CardCategory v-for="product of showedProducts" :cardData="product.id" :key="product.id"/>
-              
             </div>
-            <button class="btn" v-if="!loader" @click="changePage(Number(-25))">Назад</button>
-            <button class="btn" v-if="!loader"  @click="changePage(Number(25))">Вперед</button>
             <p class="category__products-text" v-if="afterProducts">{{afterProducts}}
             </p>
           </div>
@@ -325,6 +322,7 @@ export default {
     loader:false,
     sortP:false, sortD:false,
     buttonX: 0, buttonY: 120,
+    cardsNodeY: 0,
   }},
   computed:{
     sessionStore(){return useSessionStore()},
@@ -428,8 +426,8 @@ export default {
           if(filterNode && window.innerWidth > 992)
           {
             console.log(filterNode)
-           this.buttonY = filterNode.pageY - 15
-           this.buttonX = filterNode.pageX + filterNode.srcElement.parentNode.offsetWidth * 0.7
+            this.buttonY = filterNode.pageY - 15
+            this.buttonX = filterNode.pageX + filterNode.srcElement.parentNode.offsetWidth * 0.7
           }
           if(this.actualFilters.findIndex(el=>el==filter)>-1) this.actualFilters.splice(this.actualFilters.findIndex(el=>el==filter),1)
           else this.actualFilters.push(filter)
@@ -437,16 +435,7 @@ export default {
         },
         changePage(value) {
           this.showedProducts = [];
-          const startValue = this.currentProductsValue + value;
           const endValue = this.nextProductsValue + value;
-          
-          if (startValue <= this.maxValueOfProducts && startValue >= 0) {
-            this.currentProductsValue += value;
-          } else if (startValue < 0) {
-            this.currentProductsValue = 0;
-          } else {
-            this.currentProductsValue = this.currentProductsValue;
-          }
           
           if (endValue <= this.maxValueOfProducts  && endValue >= 0 && endValue >= 25) {
             this.nextProductsValue += value;
@@ -456,6 +445,14 @@ export default {
             this.nextProductsValue = 25;
           }
           this.showedProducts = this.products.slice(this.currentProductsValue, this.nextProductsValue);
+        },
+        triggerScroll() {
+          if(this.$refs.cardsDiv){
+            console.log(window.scrollY + this.$refs.cardsDiv.offsetTop > this.$refs.cardsDiv.offsetHeight)
+            if(window.scrollY + this.$refs.cardsDiv.offsetTop > this.$refs.cardsDiv.offsetHeight) {
+              this.changePage(25)
+            }
+          }
         }
       },
       watch: {
@@ -467,9 +464,17 @@ export default {
           }
         }
       },
+      created() {
+        window.addEventListener("scroll", this.triggerScroll);
+      },
+      
       beforeMount() {
         this.start()
-      }
+      },
+
+      destroyed() {
+        window.removeEventListener("scroll", this.triggerScroll);
+      },
       
     }
   </script>

@@ -31,7 +31,7 @@
                 <div class="content__form-field">
                   <label class="content__form-label content__form-label--light">Категория</label>
                   <v-autocomplete
-                      style="width: 451px;max-width: 100%;height: 50px;background: #eaeaea;padding: 0px 29px;"
+                      class="content__form-input category"
                       v-model="productToEdit.categoryId"
                       :items="store.categoriesTree"
                       item-title="name"
@@ -107,7 +107,7 @@
                   <label class="content__form-label content__form-label--light">Вес, г</label>
                   <input type="number" class="content__form-input" v-model="productToEdit.weight"/>
                 </div>
-                <div class="content__form-field">
+                <div class="content__form-field content__form-field__dimensions">
                   <label class="content__form-label content__form-label--light">Габариты</label>
                   <div class="field-group">
                     <input type="number" class="content__form-input field-group__input"
