@@ -85,7 +85,7 @@
           </div>
           <div class="product-page__desc">
             <div class="product-page__desc-item active">
-              <a class="product-page__desc-tab">Дополнительная информация</a>
+              <a class="product-page__desc-tab" >Дополнительная информация</a>
               <div class="product-page__desc-body active">
                 <ul class="product-page__desc-list">
                   <div v-for="frontName of Object.keys(attributes)" :key="frontName">
@@ -98,9 +98,12 @@
                 </ul>
               </div>
             </div>
-            <div class="product-page__desc-item">
+            <!-- todo: В приходящей информации о товаре нет информации о том в каком магазине он находится.
+              Добавить ифнормацию об этом для вывода инфомации о доставка/самовывозе -->
+              
+            <!-- <div class="product-page__desc-item">
               <a class="product-page__desc-tab">Доставка, оплата, возврат</a>
-              <div class="product-page__desc-body" v-for="text of deliveries" :key="text">
+              <div class="product-page__desc-body active" v-for="text of deliveries" :key="text">
                 <h3>{{text.title}}</h3>
                 <p>{{text.description}}</p>
               </div>
@@ -108,7 +111,7 @@
                 <h3>{{text.title}}</h3>
                 <p>{{text.description}}</p>
               </div>
-            </div>
+            </div> -->
           </div>
           <h1 class="product-page__title" v-if="theLook && theLook.look.length>1">С этим товаром в луке</h1>
           <div class="product-page__cards cards" v-if="look && look.length>1">
