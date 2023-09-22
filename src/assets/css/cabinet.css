@@ -252,6 +252,12 @@
   .cabinet__payment {
     padding: 21px 23px;
   }
+  .award__form
+  {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 
   .payment__addcard {
     width: 100%;
@@ -525,6 +531,16 @@
   .subscribe__title {
     font-size: 18px;
     line-height: 22px;
+  }
+  .subscribe__filter-chooses
+  {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    padding: 20px 0;
+  }
+  .subscribe__choosed
+  {
+    flex-shrink: 0;
   }
 }
 
@@ -1055,6 +1071,11 @@
   display: none;
   overflow-y: auto;
 }
+.cabinet-main
+{
+  padding-top: 0 !important
+  ;
+}
 
 @media screen and (max-width: 700px) {
   .cabinet-header {
@@ -1068,6 +1089,10 @@
   }
   .mob-cabinet {
     display: block;
+  }
+  .content__save
+  {
+    margin-left: 25px;
   }
 }
 

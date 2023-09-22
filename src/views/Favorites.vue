@@ -9,7 +9,7 @@
           </div>
           <div class="cart__title">Вам понравились</div>
           <div class="category__products-cards cards">
-            <Card v-for="product of sessionStore.favorites" :card-data="product" :key="product"/>
+            <Card v-for="product of favotiteProducts" :card-data="product" :key="product"/>
           </div>
         </div>
       </div>
@@ -23,15 +23,20 @@
             <div class="sales">
                 <div class="sales__top">
                 <div class="sales__left">
+                  Сортировать по:
                 </div>
                 <div class="sales__right">
-                    <p class="sales__right-text">Сортировать по:</p>
-                    <a href="#" class="sales__sort sales__sort--mob active">Цене</a>
+                  <!-- todo: проверить метод getProductById и настроить сортировку по параметрам -->
+                    <!-- <p class="sales__right-text">Сортировать по:</p>
+                    <a href="#" class="sales__sort sales__sort--mob active"  @click="sortPrice">Цене</a>
                     <a href="#" class="sales__sort">Скидке</a>
-                    <a href="#" class="sales__sort">Дате</a>
+                    <a href="#" class="sales__sort">Дате</a> -->
                 </div>
                 </div>
-                <CardFavoriteMob v-for="product of sessionStore.favorites" :card-data="product" :key="product"/>
+                <div class="wish__cards cards">
+                  <CardFavoriteMob v-for="product of favotiteProducts" :card-data="product" :key="product"/>
+                </div>
+            
                 <a href="#" class="wish__share">
                 <p class="wish__share-text">Поделиться списком желаний</p>
                 <img src="@/assets/images/share.svg" alt="">
@@ -44,6 +49,7 @@
 
 <script>
 import {useSessionStore} from '@/store/session';
+import API from '../api.js';
 import Card from "@/components/Card";
 import CardFavoriteMob from "@/components/CardFavoriteMob";
 
@@ -52,7 +58,16 @@ export default {
   components: {Card, CardFavoriteMob},
   computed:{
     sessionStore(){return useSessionStore()}
-  }
+  },
+  data() {
+    return {
+      favotiteProducts: [],
+      sortP: false,
+    }
+  },
+  mounted() {
+    this.favotiteProducts = this.sessionStore.favorites;
+  },
   // computed: {
     //     ...mapGetters({
     //       cartProducts: 'cart/cartItems',
@@ -62,11 +77,16 @@ export default {
     //     })
     // },
 
-    // methods: {
-    //   ...mapMutations({
-    //       deleteFromCart: 'cart/deleteFromCart',
-    //   })
-    // }
+    methods: {
+      sortPrice(){
+          if (this.sortP === false) {
+            this.favotiteProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+          } else {
+            this.favotiteProducts.sort((b, a) => parseFloat(b.price) - parseFloat(a.price));
+          }
+          this.sortP = !this.sortP
+        },
+    }
 
 }
 </script>

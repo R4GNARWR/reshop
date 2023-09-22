@@ -22,6 +22,7 @@
       </div>
       <div class="category__container">
         <aside class="filter" :class="{'active': showFilter}">
+          <div class="close_window btn" @click="showFilter = !showFilter">Закрыть</div>
           <form class="filter__form">
             <div class="filter__form-field">
               <div class="filter__form-top">
@@ -346,6 +347,7 @@ export default {
           
           let key={query:query, attr:attr, category_id:cat}
           if (useSessionStore().searchResult[JSON.stringify(key)]) {
+
             let value= useSessionStore().searchResult[JSON.stringify(key)]
             if (value.data.total>0) {
               this.total =value.data.total
@@ -361,9 +363,9 @@ export default {
             }
             this.maxValueOfProducts = this.products.length;
             this.showedProducts =  this.products.slice(this.currentProductsValue, this.nextProductsValue)
-            
           } else{
             this.loader = true
+            // to-do: Заменить searchProducts на searchTwentyFive
             API.searchProducts(query,attr,cat).then(value => {
               this.loader = false
               if (value.data.total>0) {
@@ -425,7 +427,6 @@ export default {
         filterClick(filter, filterNode){
           if(filterNode && window.innerWidth > 992)
           {
-            console.log(filterNode)
             this.buttonY = filterNode.pageY - 15
             this.buttonX = filterNode.pageX + filterNode.srcElement.parentNode.offsetWidth * 0.7
           }
@@ -446,10 +447,10 @@ export default {
           }
           this.showedProducts = this.products.slice(this.currentProductsValue, this.nextProductsValue);
         },
+
         triggerScroll() {
           if(this.$refs.cardsDiv){
-            console.log(window.scrollY + this.$refs.cardsDiv.offsetTop > this.$refs.cardsDiv.offsetHeight)
-            if(window.scrollY + this.$refs.cardsDiv.offsetTop > this.$refs.cardsDiv.offsetHeight) {
+            if(window.scrollY + this.$refs.cardsDiv.offsetTop > this.$refs.cardsDiv.offsetHeight -50 ) {
               this.changePage(25)
             }
           }

@@ -497,7 +497,7 @@
     background: #fff;
     height: 100%;
     overflow-y: scroll;
-    padding: 12px 40px 45px;
+    padding: 12px 40px 45px 20px;
     position: relative;
   }
   .filter__form-checkbox + label {
@@ -535,7 +535,7 @@
   }
 
   .filter__form-btn {
-    position: relative;
+    position: static;
     width: 100%;
     text-align: center;
     top: 0;
@@ -594,6 +594,13 @@
     top: 80px;
     height: calc(100vh - 80px);
     width: 100%;
+    padding-top: 75px;
+    background-color: #FFF;
+  }
+  .filter .btn
+  {
+    background-color: #FFF;
+    color: #eb681e !important;
   }
 }
 

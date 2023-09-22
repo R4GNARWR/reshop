@@ -30,8 +30,8 @@
                 </div>
                 <div class="cart__item-info">
                   <div class="cart__item-prices--mob">
-                    <div class="cart__item-newprice--mob">{{ product.oldPrice }} р.</div>
-                    <div class="cart__item-oldprice--mob">{{ product.price }} р.</div>
+                    <div class="cart__item-newprice--mob">{{ product.price }} р.</div>
+                    <div class="cart__item-oldprice--mob"  v-if="product.oldPrice">{{ product.oldPrice }} р.</div>
                   </div>
                   <a href="#" class="cart__item-name"
                     >{{ product.name }}</a
