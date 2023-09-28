@@ -98,7 +98,7 @@
                     </svg>
                     <router-link to="/">Договор комиссии</router-link>
                     
-                    <a class="content__save btn" style="margin-top: 20px; max-width: 300px"
+                    <a class="content__save btn" style="margin-top: 20px; margin-left: 20px; max-width: 300px"
                     @click="saveIt()">Сохранить</a>
                     
                 </div>
@@ -193,7 +193,9 @@
                         fill="black"
                         />
                     </svg>
-                    <a href="#">Договор комиссии</a>
+                    <a href="#">Договор комиссии</a> <br>
+                    <a class="content__save btn" style="margin-top: 20px; margin-left: 0; max-width: 300px"
+                    @click="saveIt()">Сохранить</a>
                 </div>
             </div>
         </div>

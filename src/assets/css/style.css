@@ -845,6 +845,18 @@ header
   }
   .seacrh-trigger {
     display: block;
+    width: 25px;
+    height: 25px;
+  }
+  .seacrh-trigger img
+  {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .header__inner-container
+  {
+    padding: 14px 15px;
   }
 }
 /* End Header Style*/

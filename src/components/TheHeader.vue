@@ -68,7 +68,7 @@
               </a>
             </div>
           </div>
-          <div class="seacrh-trigger">
+          <div class="seacrh-trigger" @click="searchModalShow = !searchModalShow">
             <img src="@/assets/images/search.svg" alt="" />
           </div>
         </div>

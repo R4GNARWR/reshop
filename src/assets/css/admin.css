@@ -2962,3 +2962,22 @@ body {
   box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 }
 /*End Send Style*/
+
+@media (max-width: 768px) {
+  .edit__item-title
+  {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  .content__top
+  {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  .edit
+  {
+    padding-bottom: 50px;
+  }
+}

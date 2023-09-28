@@ -1,5 +1,5 @@
 <template>
-    <div class="wish__cards cards">
+
         <div class="card sales-card" v-if="product && product.id">
             <div class="card-img">
                 <PhotoChange :photo="product.photo" :photo-array="product.photosPreview" @click="$router.push('/product/'+product.id)"/>
@@ -23,7 +23,6 @@
                 <div class="card-oldprice" v-if="product.oldPrice">{{ product.oldPrice }} руб</div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
