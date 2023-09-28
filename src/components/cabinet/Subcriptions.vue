@@ -81,7 +81,9 @@
             <div class="cat_select" v-if="showModal.values" v-for="val in showModal.values" :key="val.attributeValueId">
               <input type="checkbox" class="edit-property__checkbox-input"
               :checked="actualFilters.find(el=>el.value===val.value)"
-              @click="actualFilters.find(el=>el.value===val.value)?actualFilters.splice(actualFilters.indexOf(el=>el.value===val.value),1):actualFilters.push(val)">
+              @click="actualFilters.find(el=>el.value===val.value)
+              ?actualFilters.splice(actualFilters.indexOf(el=>el.value===val.value),1)
+              :actualFilters.push(val)">
               <label>{{val.value}}</label>
             </div>
           </div>
@@ -160,7 +162,9 @@
         <div class="mobile-select__item" v-if="showModal.values" v-for="val in showModal.values" :key="val.attributeValueId">
               <input type="checkbox" class="edit-property__checkbox-input"
               :checked="actualFilters.find(el=>el.value===val.value)"
-              @click="actualFilters.find(el=>el.value===val.value)?actualFilters.splice(actualFilters.indexOf(el=>el.value===val.value),1):actualFilters.push(val)">
+              @click="actualFilters.find(el=>el.value===val.value) ? 
+              actualFilters.splice(actualFilters.indexOf(el=>el.value===val.value),1):
+              actualFilters.push(val)">
               <label>{{val.value}}</label>
           </div>
       </div>
@@ -205,7 +209,16 @@ export default {
         this.sex=data.sex?data.sex:''
         this.categories=data.categories?JSON.parse(data.categories):[]
         this.subscribed=data.subscribed?data.subscribed:false
-        this.actualFilters=data.attributes.length?JSON.parse(data.attributes):[]
+        if(data.attributes && data.attributes !== '') {
+          console.log('1-st passed');
+          this.actualFilters = JSON.parse(data.attributes)
+          if(!this.actualFilters) {
+            this.actualFilters = []
+          }
+        } else {
+          console.log('2-st passed');
+          this.actualFilters = []
+        }
       }
       
       return data //!==null
