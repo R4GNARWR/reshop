@@ -162,47 +162,6 @@
             <div class="mobile__catalog-tab" :class="{'active': forWho==='m'}" @click="forWho='m'">ДЛЯ НЕГО</div>
           </div>
           <div class="mobile__catalog-body active" >
-            <!-- <ul class="mobile__catalog-list" @click="e =>  e.target.parentNode.parentNode.classList.toggle('active')">
-              <li>
-                <a class="mobile__catalog-title">Популярные бренды</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Loius Vuitton</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Chanel</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Dior</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Furia</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Dolce & Gabanna</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Gucci</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Michael Kors</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Fendi</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Marc Jacobs</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Valentino</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Guess</a>
-              </li>
-              <li>
-                <a class="mobile__catalog-link">Hermes</a>
-              </li>
-            </ul> -->
             <ul class="mobile__catalog-list" v-for="pcat of parentsCatIds" :key="pcat.id" @click="e =>  e.target.parentNode.parentNode.classList.toggle('active')">
               <li >
                 <a
@@ -253,7 +212,7 @@
       <Auth v-if="showAuth" @toggleModal="toggleModal" />
       <CitySelector v-if="showCity" @closeCity="showCity= false"/>
   </header>
-  <div class="footer__actions">
+  <div class="footer__actions" v-if="showMobileMenu">
         <a class="footer__actions-icon" @click="searchModalShow = !searchModalShow">
           <img src="@/assets/images/search.svg" alt="" />
         </a>
@@ -297,6 +256,9 @@ export default {
       forWho:'f',
 
     }
+  },
+  props: {
+    showMobileMenu: Boolean
   },
   computed:{
     sessionStore(){return useSessionStore()},

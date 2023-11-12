@@ -56,7 +56,6 @@
 <!--                  </div>-->
                 </div>
               </div>
-
               <div class="cart__promo">
                 <label class="cart__promo-label"
                   ><span>Введите промокод, если есть</span>
@@ -64,6 +63,7 @@
                     class="cart__promo-input"
                     type="text"
                     placeholder="Промокод"
+                    v-model="promo"
                   />
                 </label>
                 <p class="cart__promo-text">
@@ -104,16 +104,19 @@
                   type="text"
                   class="cart__form-input"
                   placeholder="Имя, Фамилия"
+                  v-model="userInfo.name"
                 />
                 <input
                   type="text"
                   class="cart__form-input"
                   placeholder="Телефон"
+                  v-model="userInfo.phone"
                 />
                 <input
                   type="text"
                   class="cart__form-input"
                   placeholder="E-mail"
+                  v-model="userInfo.email"
                 />
                 <div class="cart__form-check">
                   <input id="" type="checkbox" class="cart__form-checkbox" />
@@ -125,33 +128,45 @@
               </form>
               <form class="deliver__form">
                 <p class="deliver__form-text">Введите адрес доставки</p>
-                <input type="text" placeholder="Название населенного пункта" />
+                <input type="text"
+                placeholder="Название населенного пункта"
+                v-model="deliveryInfo.city"
+                />
                 <input
                   type="text"
                   class="deliver__form-street"
                   placeholder="Улица"
+                  v-model="deliveryInfo.street"
                 />
                 <input
                   class="deliver__form-house"
                   type="text"
                   placeholder="дом"
+                  v-model="deliveryInfo.houseNum"
                 />
-                <input class="deliver__form-house" type="text" placeholder="кв" />
+                <input class="deliver__form-house"
+                type="text"
+                placeholder="кв"
+                v-model="deliveryInfo.flatNum"
+                />
                 <p class="deliver__form-text">Информация для курьера</p>
                 <input
                   type="text"
                   class="deliver__form-number"
                   placeholder="Подъезд"
+                  v-model="courierInfo.porche"
                 />
                 <input
                   type="text"
                   class="deliver__form-number"
                   placeholder="Домофон"
+                  v-model="courierInfo.intercom"
                 />
                 <input
                   type="text"
                   class="deliver__form-number"
                   placeholder="Этаж"
+                  v-model="courierInfo.floor"
                 />
 <!--                <button type="submit" class="deliver__form-btn btn">-->
 <!--                  Сохранить-->
@@ -179,7 +194,7 @@
                 {{ deliverType.description }}
               </p>
               <div class="check__subtitle" v-if="paymentsType">Оплата: {{ paymentsType.title }}</div>
-              <a href="" class="check__btn btn">Оплатить заказ</a>
+              <button type="submit" @click.prevent="" class="check__btn btn">Оплатить заказ</button>
               <div class="check__agreement">
                 <img src="@/assets/images/orange-tick.svg" alt="" />
                 <p class="check__agreement-text">
@@ -269,7 +284,7 @@
       <div class="modal-error">
         <div class="modal-error__window">
           <div class="modal-error__content">
-            <div class="modal-error__title">К сожалению, вы опоздали:(</div>
+            <div class="modal-error__title">К сожалению, вы опоздали:</div>
             <p class="modal-error__text modal-error__text--sm">
               Кто-то только что начал оплачивать данный товар
             </p>
@@ -290,9 +305,27 @@ import TheHeart from "@/components/TheHeart";
 export default {
   name: 'Cart',
   components: {TheHeart},
-  data(){return{
+  data(){
+    return{
     deliverType:null,
     paymentsType:null,
+    promo: '',
+    userInfo: {
+      name: '',
+      phone: '',
+      email: '',
+    },
+    deliveryInfo: {
+      city: '',
+      street: '',
+      houseNum: '',
+      flatNum: '',
+    },
+    courierInfo: {
+      porche: '',
+      intercom: '',
+      floor: '',
+    },
     minutes: 5,
     seconds: 30
   }},

@@ -94,14 +94,17 @@
                       <div class="product-page__desc-value">{{ attributes[frontName].join(', ') }}</div>
                     </li>
                   </div>
-
+                    <li v-if="shopName">
+                      <div class="product-page__desc-key">Наличие в магазинах</div>
+                      <div class="product-page__desc-value">{{ shopName === 'Уфа Галерея-Арт' ? 'ТЦ Галерея АРТ' : 'МЦ Артерия' }}</div>
+                    </li>
                 </ul>
               </div>
             </div>
             <!-- todo: В приходящей информации о товаре нет информации о том в каком магазине он находится.
               Добавить ифнормацию об этом для вывода инфомации о доставка/самовывозе -->
               
-            <!-- <div class="product-page__desc-item">
+            <div class="product-page__desc-item">
               <a class="product-page__desc-tab">Доставка, оплата, возврат</a>
               <div class="product-page__desc-body active" v-for="text of deliveries" :key="text">
                 <h3>{{text.title}}</h3>
@@ -111,7 +114,7 @@
                 <h3>{{text.title}}</h3>
                 <p>{{text.description}}</p>
               </div>
-            </div> -->
+            </div>
           </div>
           <h1 class="product-page__title" v-if="theLook && theLook.look.length>1">С этим товаром в луке</h1>
           <div class="product-page__cards cards" v-if="look && look.length>1">
@@ -228,6 +231,7 @@ export default {
     product(){
       let tmp = useShopStore().products[this.$route.params.pId]
       if (tmp) {
+        console.log(tmp)
         this.theImg=tmp.photosPreview[0]
         this.people = Math.floor(Math.random() * 9) + 1
             window.scroll(0,0);
@@ -242,6 +246,7 @@ export default {
           else if (this.attributes[attr.frontName])
             this.attributes[attr.frontName].push(attr.attributeValueText)
           else this.attributes[attr.frontName]=[attr.attributeValueText]
+          this.shopName = tmp.shopName
         }
 
         if (useSessionStore().settings.find(el=>el.setting_type==='sets'))
@@ -259,7 +264,7 @@ export default {
 
   },
   data(){return{look:[],
-    fullPhoto:[], photosPreview:[], attributes:{},
+    fullPhoto:[], photosPreview:[], attributes:{}, shopName: '',
     discount:false,formData:{}, status:"",
     theImg:"", people:2, theLook:null
   }},

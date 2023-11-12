@@ -41,8 +41,16 @@
         </div>
       
       <a class="content__save btn" style="margin-top: 20px; max-width: 300px" @click="saveIt()">Сохранить</a>
-      <div class="subscribe__cards cards">
+      <div class="subscribe__cards cards" v-if="products.length > 0">
         <CardSub v-for="product of products.slice(0, 15)" :card-data="product._id" :key="product._id"/>
+      </div>
+      <div style="
+        min-height: 200px;
+        margin-top: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;" v-else>
+        <h1 class="subscribe__title" style="text-transform: uppercase;">Товары не найдены</h1>
       </div>
       
       <div class="subscribe__email-check subscribe__email-check--mob">
@@ -184,7 +192,6 @@ export default {
   data(){
     return{
       showModal:null,
-      
       sex:'',
       categories:[],
       subscribed:false,
@@ -264,8 +271,11 @@ export default {
       let attrs = []
       for ( let a of this.actualFilters)
       if (a.attributeValueId !=null) attrs.push(a.attributeValueId)
-      api.searchTwentyFive('',this.sex, JSON.stringify(attrs),data.categories, null,null,null,null).then(value => {
-        this.products = value.data.products.hits.hits;
+      api.searchTwentyFive('', this.sex, JSON.stringify(attrs),data.categories, null,null,null,null).then(value => {
+        if(value.data.success) {
+          this.products = value.data.products.hits.hits;
+        }
+
       }).catch(error => {
         console.error(error)
       })

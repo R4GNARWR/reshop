@@ -65,8 +65,8 @@ const routes = [
     component:()=>import('@/views/Cabinet.vue')
   },
   {
-    path: '/EditProduct/:categoryId/:productId',
-    component:()=>import('@/components/cabinet/EditProduct.vue')
+    path: '/OfferProduct/:categoryId/:productId',
+    component:()=>import('@/components/cabinet/OfferProduct.vue')
   },
 ]
 
