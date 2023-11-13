@@ -63,7 +63,7 @@
                     class="cart__promo-input"
                     type="text"
                     placeholder="Промокод"
-                    v-model="promo"
+                    v-model="paymentInfo.promo"
                   />
                 </label>
                 <p class="cart__promo-text">
@@ -76,26 +76,30 @@
 <!--                <a href="#" class="cart__form-link">Выберите адрес доставки</a>-->
                 <fieldset class="cart__form-fieldset--pay">
                   <div class="group-radio" v-for="way of JSON.parse(sessionStore.settings.find(el=>el.setting_type ==='deliveries').setting_json)">
-                    <input
-                      type="radio"
-                      name="group1"
-                      class="cart__form-radio"
-                      @click="deliverType=way"
-                    />
-                    <label>{{ way.title }}</label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="group1"
+                        class="cart__form-radio"
+                        @click="deliveryInfo.deliverType=way"
+                      />
+                      {{ way.title }}
+                    </label>
                   </div>
                 </fieldset>
 
                 <h2 class="cart__form-title">Способ оплаты</h2>
                 <fieldset class="cart__form-fieldset--pay">
                   <div class="group-radio" v-for="way of JSON.parse(sessionStore.settings.find(el=>el.setting_type ==='payments').setting_json)">
-                    <input
-                      type="radio"
-                      name="group12"
-                      class="cart__form-radio"
-                      @click="paymentsType = way"
-                    />
-                    <label>{{ way.title }}</label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="group12"
+                        class="cart__form-radio"
+                        @click="paymentInfo.paymentsType = way"
+                      />
+                      {{ way.title }}
+                    </label>
                   </div>
                 </fieldset>
 
@@ -126,7 +130,7 @@
                 </div>
 
               </form>
-              <form class="deliver__form">
+              <form class="deliver__form" v-if="deliveryInfo.deliverType && deliveryInfo.deliverType.title === 'Курьером'">
                 <p class="deliver__form-text">Введите адрес доставки</p>
                 <input type="text"
                 placeholder="Название населенного пункта"
@@ -184,17 +188,17 @@
                   <div class="check__item-left">Скидка</div>
                   <div class="check__item-right">{{ totalDiscount }} р.</div>
                 </li>
-                <li class="check__item" v-if="deliverType">
+                <li class="check__item" v-if="deliveryInfo.deliverType">
                   <div class="check__item-left">Доставка</div>
-                  <div class="check__item-right">{{deliverType.aboutPrice}} р.</div>
+                  <div class="check__item-right">{{deliveryInfo.deliverType.aboutPrice}} р.</div>
                 </li>
               </ul>
-              <div class="check__subtitle" v-if="deliverType">Доставка: {{ deliverType.title }}</div>
-              <p class="check__text" v-if="deliverType">
-                {{ deliverType.description }}
+              <div class="check__subtitle" v-if="deliveryInfo.deliverType">Доставка: {{ deliveryInfo.deliverType.title }}</div>
+              <p class="check__text" v-if="deliveryInfo.deliverType">
+                {{ deliveryInfo.deliverType.description }}
               </p>
-              <div class="check__subtitle" v-if="paymentsType">Оплата: {{ paymentsType.title }}</div>
-              <button type="submit" @click.prevent="" class="check__btn btn">Оплатить заказ</button>
+              <div class="check__subtitle" v-if="paymentInfo.paymentsType">Оплата: {{ paymentInfo.paymentsType.title }}</div>
+              <button type="submit" @click.prevent="makeOrder" class="check__btn btn" :disabled="!readyToOrder">Оплатить заказ</button>
               <div class="check__agreement">
                 <img src="@/assets/images/orange-tick.svg" alt="" />
                 <p class="check__agreement-text">
@@ -231,36 +235,53 @@
             <a class="deliver__tab">Самовывоз</a>
             <a class="deliver__tab active">Курьером</a>
           </div>
-          <div class="deliver__body active">
+          <div class="deliver__body active" v-if="deliveryInfo.deliverType && deliveryInfo.deliverType.title === 'Курьером'">
             <form class="deliver__form">
               <p class="deliver__form-text">Введите адрес доставки</p>
-              <input type="text" placeholder="Название населенного пункта" />
+              <input
+              type="text"
+              placeholder="Название населенного пункта"
+              v-model="deliveryInfo.city"
+              required
+              />
               <input
                 type="text"
                 class="deliver__form-street"
                 placeholder="Улица"
+                v-model="deliveryInfo.street"
+                required
               />
               <input
                 class="deliver__form-house"
                 type="text"
                 placeholder="дом"
+                v-model="deliveryInfo.houseNum"
+                required
               />
-              <input class="deliver__form-house" type="text" placeholder="кв" />
+              <input class="deliver__form-house"
+              type="text"
+              placeholder="кв"
+              v-model="deliveryInfo.flatNum"
+              required
+              />
               <p class="deliver__form-text">Информация для курьера</p>
               <input
                 type="text"
                 class="deliver__form-number"
                 placeholder="Подъезд"
+                v-model="courierInfo.porch"
               />
               <input
                 type="text"
                 class="deliver__form-number"
                 placeholder="Домофон"
+                v-model="courierInfo.intercom"
               />
               <input
                 type="text"
                 class="deliver__form-number"
                 placeholder="Этаж"
+                v-model="courierInfo.floor"
               />
               <button type="submit" class="deliver__form-btn btn">
                 Сохранить
@@ -307,15 +328,17 @@ export default {
   components: {TheHeart},
   data(){
     return{
-    deliverType:null,
-    paymentsType:null,
-    promo: '',
     userInfo: {
       name: '',
       phone: '',
       email: '',
     },
+    paymentInfo: {
+      paymentsType:null,
+      promo: '',
+    },
     deliveryInfo: {
+      deliverType: null,
       city: '',
       street: '',
       houseNum: '',
@@ -339,6 +362,10 @@ export default {
     },
     delFrom(id){
       this.sessionStore.delFromCart(id)
+    },
+    makeOrder() {
+      const response = API.makeOrder(this.userInfo, this.paymentInfo, this.deliveryInfo, this.courierInfo)
+      console.log(response)
     },
     startTimer() {
       let totalSeconds = this.minutes * 60 + this.seconds;
@@ -374,6 +401,13 @@ export default {
           sum+=p.oldPrice-p.price
       }
       return sum
+    },
+    readyToOrder() {
+      if(this.userInfo.phone !== '' && this.deliveryInfo.deliverType !== null) {
+        return true
+      } else {
+         return false
+      }
     }
   },
 }

@@ -2,17 +2,17 @@
     <div class="card sales-card">
         <div class="card sales-card" v-if="product && product.id">
             <div class="card-img">
-                <PhotoChange :photo="product.photo" :photo-array="product.photosPreview" @click="$router.push('/product/'+product.id)"/>
+                <PhotoChange :photo="product.photo" :photo-array="product.photosPreview" />
                 <div class="card-sign" v-if="product.condition">{{ product.condition }}</div>
                 <div class="card-actions">
                     <a href="" class="card-actions-left" @click.prevent="sessionStore.toCart(product.id)">{{sessionStore.cart.find(el=>el.id === product.id)?"Уже в корзине":"В корзину"}}</a>
                     <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon">
+                        <router-link :to="'/product/'+product.id" class="card-actions-icon">
                             <img src="@/assets/images/eye.svg" alt="" />
-                        </a>
-                        <a href="#" class="card-actions-icon">
-                            <img src="@/assets/images/like.svg" alt="" />
-                        </a>
+                        </router-link>
+                        <button class="card-actions-icon">
+                            <TheHeart :p-id="product.id" />
+                        </button>
                     </div>
                 </div>
             </div>

@@ -295,6 +295,10 @@
   padding: 19px 43px;
   font-feature-settings: "pnum" on, "lnum" on;
 }
+.check__btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 
 .check__agreement {
   display: flex;
@@ -400,6 +404,9 @@
 }
 
 .group-radio label {
+  display: flex;
+  align-items: center;
+  column-gap: .5em;
   font-family: "Museo Sans Cyrl";
   font-style: normal;
   font-weight: 400;

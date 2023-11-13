@@ -195,9 +195,35 @@ export default  {
   //CART
   put_to_cart(id) {return this.axios.post('cart/products', {productId: id, market_id: 5, quantity: 1}, {});},
 
-  update_quantity_in_cart(product, quantity) {this.axios.put('cart/products/'+product, {quantity:quantity}, {headers: {'Content-Type': 'application/json',}}).then(response => {
-    if (!response.data.success || !response.data.product){console.log('ahtung!!',response);}
+  update_quantity_in_cart(product, quantity) {
+    this.axios.put('cart/products/'+product,
+    {
+      quantity:quantity
+    }, {
+      headers: {'Content-Type': 'application/json',}
+    }).then(response => {
+    if (!response.data.success || !response.data.product) {
+      console.log('ahtung!!',response);
+    }
   });},
+
+  makeOrder(userInfo, paymentInfo,  deliveryInfo, courierInfo) {
+    return this.axios.post("cart/checkout",
+    {
+      phone: userInfo.phone ?? '',
+      phone2: userInfo.name ?? '',
+      email: userInfo.email ?? '',
+      city: deliveryInfo.city ?? '',
+      street: deliveryInfo.street ?? '' + deliveryInfo.houseNum ?? '',
+      apartment: deliveryInfo.flatNum ?? '',
+      floor: courierInfo.floor ?? '',
+      pickupPoint: deliveryInfo.deliverType.title,
+      deliveryTime: 'Не указано',
+      deliveryDate: 'Не указано',
+      promocode: paymentInfo.promo ?? '',
+      comment: '',
+    })
+  },
 
   //SETTINGS
     getSettings(){
