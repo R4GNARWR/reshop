@@ -207,21 +207,22 @@ export default  {
     }
   });},
 
-  makeOrder(userInfo, paymentInfo,  deliveryInfo, courierInfo) {
+  makeOrder(userInfo, paymentInfo, deliveryInfo, courierInfo) {
     return this.axios.post("cart/checkout",
     {
-      phone: userInfo.phone ?? '',
+      phone: userInfo.phone.replace(/[^0-9]/g, "").slice(2) ?? '',
       phone2: userInfo.name ?? '',
       email: userInfo.email ?? '',
       city: deliveryInfo.city ?? '',
       street: deliveryInfo.street ?? '' + deliveryInfo.houseNum ?? '',
       apartment: deliveryInfo.flatNum ?? '',
       floor: courierInfo.floor ?? '',
-      pickupPoint: deliveryInfo.deliverType.title,
-      deliveryTime: 'Не указано',
-      deliveryDate: 'Не указано',
+      pickupPoint: '',
+      // deliveryTime: String(new Date().getHours()).padStart(2, '0') + ':' + String(new Date().getMinutes()).padStart(2, '0'),
+      deliveryTime: '00:00',
+      deliveryDate: new Date(),
       promocode: paymentInfo.promo ?? '',
-      comment: '',
+      comment: deliveryInfo.deliverType.title ?? '' + paymentInfo.paymentsType.title ?? '',
     })
   },
 
@@ -341,4 +342,7 @@ export default  {
     delGalleryPhoto(path){
         return this.axios.delete("banners/galleries/photo/"+path.substr(path.lastIndexOf('/')))
     },
+    getUserProducts(id) {
+      return this.axios.get('user-data/products/' + id )
+    }
 }

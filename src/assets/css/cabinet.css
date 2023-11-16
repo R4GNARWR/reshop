@@ -714,6 +714,9 @@
   background-size: contain;
   background-repeat: no-repeat;
 }
+.sales__sort.active.asc::after {
+  transform: translateY(-50%) rotate(180deg);
+}
 
 .sales__right-text {
   font-family: "Museo Sans Cyrl";
@@ -726,6 +729,15 @@
 
 .sales__cards {
   margin-top: 40px;
+}
+.sales__cards .empty
+{
+  grid-column: span 12;
+  text-align: center;
+  margin-top: 100px;
+  font-style: 36px;
+  line-height: 1.5em;
+  font-weight: 600;
 }
 
 .card-actions--sales {

@@ -114,6 +114,9 @@
                   type="text"
                   class="cart__form-input"
                   placeholder="Телефон"
+                  v-maska data-maska="+7 (###) ###-##-##"
+                  minlength="18"
+                  required
                   v-model="userInfo.phone"
                 />
                 <input
@@ -320,12 +323,14 @@
 
 <script>
 import {useSessionStore} from "@/store/session";
+import { vMaska } from "maska"
 import API from '../api.js'
 import TheHeart from "@/components/TheHeart";
 
 export default {
   name: 'Cart',
   components: {TheHeart},
+  directives: { maska: vMaska },
   data(){
     return{
     userInfo: {
@@ -352,6 +357,32 @@ export default {
     minutes: 5,
     seconds: 30
   }},
+  computed: {
+    sessionStore(){return useSessionStore()},
+    products(){return useSessionStore().cart},
+    totalPrice(){
+      let sum=0
+      for (let p of useSessionStore().cart){
+        sum+=p.price
+      }
+      return sum
+    },
+    totalDiscount(){
+      let sum=0
+      for (let p of useSessionStore().cart){
+        if (p.oldPrice)
+          sum+=p.oldPrice-p.price
+      }
+      return sum
+    },
+    readyToOrder() {
+      if(this.userInfo.phone !== '' && this.userInfo.phone.length === 18 && this.deliveryInfo.deliverType !== null) {
+        return true
+      } else {
+         return false
+      }
+    }
+  },
   methods:{
     attrString(product){
       let result={}
@@ -384,32 +415,7 @@ export default {
   mounted() {
     this.startTimer();
   },
-  computed: {
-    sessionStore(){return useSessionStore()},
-    products(){return useSessionStore().cart},
-    totalPrice(){
-      let sum=0
-      for (let p of useSessionStore().cart){
-        sum+=p.price
-      }
-      return sum
-    },
-    totalDiscount(){
-      let sum=0
-      for (let p of useSessionStore().cart){
-        if (p.oldPrice)
-          sum+=p.oldPrice-p.price
-      }
-      return sum
-    },
-    readyToOrder() {
-      if(this.userInfo.phone !== '' && this.deliveryInfo.deliverType !== null) {
-        return true
-      } else {
-         return false
-      }
-    }
-  },
+
 }
 </script>
 <style src="@/assets/css/cart.css"></style>
