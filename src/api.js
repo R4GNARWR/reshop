@@ -210,7 +210,7 @@ export default  {
   makeOrder(userInfo, paymentInfo, deliveryInfo, courierInfo) {
     return this.axios.post("cart/checkout",
     {
-      phone: userInfo.phone.replace(/[^0-9]/g, "").slice(2) ?? '',
+      phone: userInfo.phone.replace(/[^0-9]/g, "") ?? '',
       phone2: userInfo.name ?? '',
       email: userInfo.email ?? '',
       city: deliveryInfo.city ?? '',

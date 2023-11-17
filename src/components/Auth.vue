@@ -22,6 +22,7 @@
               placeholder="Номер телефона"
               v-model="formData.phone"
               @focus="status=''"
+              v-maska data-maska="+7 (###) ###-##-##"
             />
             <input
               type="email"
@@ -88,6 +89,7 @@
 
 <script>
 import API from '../api.js'
+import { vMaska } from "maska"
 import {useSessionStore} from "@/store/session";
 
 export default {
@@ -95,6 +97,7 @@ export default {
   data(){return {
     a:'in', formData:{}, status:"",
   }},
+  directives: { maska: vMaska },
   computed:{
     statusText(){
       let result ="Пожалуйста заполните поля: ", e=0
@@ -127,7 +130,7 @@ export default {
     closeModal() {this.$emit('toggleModal', false)},
     login(){
       this.status='Заходим...'
-      API.tryLogin(this.formData.phone, this.formData.email, this.formData.password).then(value => {
+      API.tryLogin(this.formData.phone.replace(/[^0-9]/g, ""), this.formData.email, this.formData.password).then(value => {
         if(value.data.errors){
           this.status=''
           for (let e of Object.keys(value.data.errors)) this.status += value.data.errors[e]+ ' ';
@@ -144,7 +147,7 @@ export default {
     },
     regIt() {
       this.status = 'Регистрируем...'
-      API.registration(this.formData.name, this.formData.phone, this.formData.email, this.formData.password).then(value => {
+      API.registration(this.formData.name, this.formData.phone.replace(/[^0-9]/g, ""), this.formData.email, this.formData.password).then(value => {
         if (value.data.errors) {
           this.status = ''
           for (let e of Object.keys(value.data.errors)) this.status += value.data.errors[e] + ' ';

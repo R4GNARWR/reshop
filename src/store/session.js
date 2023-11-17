@@ -5,6 +5,9 @@ import {useShopStore} from "@/store/shop";
 export const useSessionStore = defineStore('session', {
   state: () => ({
     user_info:{},
+    userOrders: {},
+    userOrderedProducts: {},
+    userProducts: [],
     session:{},
     settings:[],
     mainPage:{},
@@ -86,8 +89,35 @@ export const useSessionStore = defineStore('session', {
   
         }
       } else (console.log('Не найден ID'))
-
     },
+    getUserOrders() {
+      API.get_user_orders().then((response) => {
+        if(response.data.success) {
+          this.userOrders = response.data.orders
+        }
+      })
+    },
+    getUserOrderedProducts() {
+      API.get_ordered_products().then((response) => {
+        if(response.data.success) {
+          this.userOrderedProducts = response.data.products
+        }
+      })
+    },
+    getUserProducts(id) {
+      API.getUserProducts(id).then((response) => {
+        const products = response.data;
+        if (products) {
+          for (const product of products) {
+            API.getProductById(product).then((response) => {
+              if(response.data.success && response.data.product && product) {
+                this.userProducts[product] = response.data.product
+              }
+            });
+          }
+        }
+      });
+    },    
     delFromCart(id){
       this.cart.splice(this.cart.findIndex(el=>el.id === id),1)
       API.delRequest('cart/products/' + id)

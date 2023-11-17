@@ -3,7 +3,7 @@
     <div class="container">
       <div class="product-page__breadcrumb breadcrumb" v-if="category">
         <router-link to="/">Главная</router-link>
-        <router-link :to="'/category/'+category.parent">{{ parentCategory(category.parent) }}</router-link>
+        <router-link :to="'/category/'+category.parent" v-if="category.parent">{{ parentCategory(category.parent) }}</router-link>
         <router-link :to="'/category/'+category.id">{{ category.name }}</router-link>
       </div>
       <div class="product-page__wrapper" v-if="product">

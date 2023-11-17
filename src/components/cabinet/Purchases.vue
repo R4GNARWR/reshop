@@ -14,24 +14,7 @@
                     </div>
                 </div>
                 <div class="sales__cards cards">
-                    <div class="card sales-card">
-                        <div class="card-img">
-                        <img src="@/assets/images/product.svg" alt="" />
-                        <div class="card-sign card-sign--sales">Отличное</div>
-                        <div class="card-actions card-actions--purchase">
-                            <div class="card-actions-right">
-                            <a href="#" class="card-actions-icon card-actions-icon--purchase">
-                                Удалить
-                            </a>
-                            </div>
-                        </div>
-                        </div>
-                        <p class="card-name">Мужская рубашка Mustang</p>
-                        <div class="card-prices">
-                        <div class="card-newprice">1500 руб</div>
-                        <div class="card-oldprice">4500 руб</div>
-                        </div>
-                    </div>
+                    <CardSales v-for="product in orderedProducts" :cardData="product.id" :key="product.id"></CardSales>
                 </div>
             </div>
         </div>
@@ -52,117 +35,8 @@
                     <a href="#" class="sales__sort">Дате</a>
                 </div>
                 </div>
-                <div class="sales__cards cards">
-                <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign card-sign--sales">Отличное</div>
-                    <div class="card-actions card-actions--purchase">
-                    <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon card-actions-icon--purchase">
-                        Удалить
-                        </a>
-                    </div>
-                    </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-                <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign card-sign--sales">Отличное</div>
-                    <div class="card-actions card-actions--purchase active">
-                    <div class="card-actions-right">
-                    <a href="#" class="card-actions-icon card-actions-icon--purchase">
-                        Удалить
-                    </a>
-                    </div>
-                    </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                </div>
-
-                            <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign card-sign--sales">Отличное</div>
-                    <div class="card-actions card-actions--purchase">
-                    <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon card-actions-icon--purchase">
-                        Удалить
-                        </a>
-                    </div>
-                    </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-                    <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign card-sign--sales">Отличное</div>
-                    <div class="card-actions card-actions--purchase">
-                    <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon card-actions-icon--purchase">
-                        Удалить
-                        </a>
-                    </div>
-                    </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-                    <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign card-sign--sales">Отличное</div>
-                    <div class="card-actions card-actions--purchase">
-                    <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon card-actions-icon--purchase">
-                        Удалить
-                        </a>
-                    </div>
-                    </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-                    <div class="card sales-card">
-                    <div class="card-img">
-                    <img src="@/assets/images/product.svg" alt="" />
-                    <div class="card-sign card-sign--sales">Отличное</div>
-                    <div class="card-actions card-actions--purchase">
-                    <div class="card-actions-right">
-                        <a href="#" class="card-actions-icon card-actions-icon--purchase">
-                        Удалить
-                        </a>
-                    </div>
-                    </div>
-                    </div>
-                    <p class="card-name">Мужская рубашка Mustang</p>
-                    <div class="card-prices">
-                    <div class="card-newprice">1500 руб</div>
-                    <div class="card-oldprice">4500 руб</div>
-                    </div>
-                    </div>
-
+                    <div class="sales__cards cards">
+                        <CardSales v-for="product in orderedProducts" :cardData="product.id" :key="product.id"></CardSales>
                 </div>
             </div>
         </div>
@@ -170,8 +44,31 @@
 </template>
 
 <script>
-export default {
+import API from '@/api'
+import {useSessionStore} from "@/store/session"
+import CardSales from '@/components/CardSales.vue'
 
+export default {
+    components: {
+        CardSales,
+    },
+    computed: {
+        orders() {
+            if(useSessionStore().userOrders) {
+                return useSessionStore().userOrders
+            }
+        },
+        orderedProducts() {
+            if(useSessionStore().userOrderedProducts) {
+                return useSessionStore().userOrderedProducts
+            }
+        }
+    },
+    created() {
+        useSessionStore().getUserOrders();
+        useSessionStore().getUserOrderedProducts();
+        
+    }
 }
 </script>
 
