@@ -7,7 +7,7 @@ export const useSessionStore = defineStore('session', {
     user_info:{},
     userOrders: {},
     userOrderedProducts: {},
-    userProducts: [],
+    userProducts: {},
     session:{},
     settings:[],
     mainPage:{},
@@ -117,7 +117,7 @@ export const useSessionStore = defineStore('session', {
           }
         }
       });
-    },    
+    },
     delFromCart(id){
       this.cart.splice(this.cart.findIndex(el=>el.id === id),1)
       API.delRequest('cart/products/' + id)
